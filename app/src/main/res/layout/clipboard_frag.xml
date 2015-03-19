@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="#eb5c3e"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/header_slot">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="CLIPBOARD"
+            android:id="@+id/textView_header"
+            android:textSize="30sp"
+            android:includeFontPadding="false"
+            android:layout_alignParentTop="true"
+            android:textColor="@android:color/white"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="-3dp" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/content_frag"
+        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/header_slot"
+        android:layout_above="@+id/list_slot">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="ClipBoard"
+            android:id="@+id/textView3"
+            android:layout_gravity="left|top" />
+    </FrameLayout>
+</LinearLayout>

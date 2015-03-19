@@ -1,0 +1,22 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="fill_parent"
+    android:layout_height="match_parent" android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+    android:paddingBottom="0dp" tools:context=".MainActivity">
+
+    <FrameLayout
+        android:id="@+id/content_frag"
+        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/header_slot"
+        android:layout_above="@+id/menu_slot"></FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/menu_slot"
+        android:layout_width="fill_parent"
+        android:layout_height="65dp"
+        android:background="#eb5c3e"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"></FrameLayout>
+</RelativeLayout>

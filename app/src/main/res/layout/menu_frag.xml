@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eb5c3e"
+    android:id="@+id/btn_group">
+        <RadioButton
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"
+            android:id="@+id/task_button"
+            android:button="@null"
+            android:background="@drawable/task_button"/>
+
+        <RadioButton
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:id="@+id/project_button"
+            android:button="@null"
+            android:background="@drawable/project_button"/>
+
+        <RadioButton
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="13dp"
+            android:id="@+id/calendar_button"
+            android:button="@null"
+            android:background="@drawable/calendar_button"/>
+
+        <RadioButton
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="13dp"
+            android:id="@+id/clipBoard_button"
+            android:button="@null"
+            android:background="@drawable/clipboard_button"/>
+
+        <RadioButton
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="13dp"
+            android:id="@+id/categories_button"
+            android:button="@null"
+            android:background="@drawable/categories_button"/>
+
+</RadioGroup>
