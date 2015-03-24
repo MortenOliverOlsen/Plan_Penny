@@ -67,7 +67,7 @@ public class DynamicListView extends ListView {
     private final int MOVE_DURATION = 150;
     private final int LINE_THICKNESS = 15;
 
-    public ArrayList<String> mCheeseList;
+    public ArrayList<TaskListItem> taskList;
 
     private int mLastEventY = -1;
 
@@ -154,7 +154,7 @@ public class DynamicListView extends ListView {
         int top = v.getTop();
         int left = v.getLeft();
 
-        Bitmap b = getBitmapWithBorder(v);
+        Bitmap b = getBitmapFromView(v);
 
         BitmapDrawable drawable = new BitmapDrawable(getResources(), b);
 
@@ -332,7 +332,7 @@ public class DynamicListView extends ListView {
                 return;
             }
 
-            swapElements(mCheeseList, originalItem, getPositionForView(switchView));
+            swapElements(taskList, originalItem, getPositionForView(switchView));
 
             ((BaseAdapter) getAdapter()).notifyDataSetChanged();
 
@@ -500,8 +500,8 @@ public class DynamicListView extends ListView {
         return false;
     }
 
-    public void setCheeseList(ArrayList<String> cheeseList) {
-        mCheeseList = cheeseList;
+    public void setTaskList(ArrayList<TaskListItem> taskListData) {
+        taskList = taskListData;
     }
 
     /**
@@ -589,4 +589,11 @@ public class DynamicListView extends ListView {
             }
         }
     };
+
+    public void addRow(TaskListItem newObj){
+    final StableArrayAdapter adapter = (StableArrayAdapter)getAdapter();
+    taskList.add(0, newObj);
+    adapter.addStableIdForDataAtPosition(0);
+    adapter.notifyDataSetChanged();
+    }
 }

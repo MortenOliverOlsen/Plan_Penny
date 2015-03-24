@@ -17,22 +17,29 @@
 package morten.plan_penny.Tasks;
 
 import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class StableArrayAdapter extends ArrayAdapter<String> {
+import morten.plan_penny.R;
+
+public class StableArrayAdapter extends ArrayAdapter<TaskListItem> {
 
     final int INVALID_ID = -1;
 
-    HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
+    HashMap<TaskListItem, Integer> mIdMap = new HashMap<TaskListItem, Integer>();
+    List<TaskListItem> taskLists;
+    int mCounter;
 
-    public StableArrayAdapter(Context context, int textViewResourceId, List<String> objects) {
+    public StableArrayAdapter(Context context, int textViewResourceId, List<TaskListItem> objects) {
         super(context, textViewResourceId, objects);
-        for (int i = 0; i < objects.size(); ++i) {
-            mIdMap.put(objects.get(i), i);
-        }
+        taskLists = objects;
     }
 
     @Override
@@ -40,9 +47,35 @@ public class StableArrayAdapter extends ArrayAdapter<String> {
         if (position < 0 || position >= mIdMap.size()) {
             return INVALID_ID;
         }
-        String item = getItem(position);
+        TaskListItem item = getItem(position);
         return mIdMap.get(item);
     }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        // Get the data item for this position
+        TaskListItem task = getItem(position);
+
+        // Check if an existing view is being reused, otherwise inflate the view
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_view_item, parent, false);
+        }
+        // Lookup view for data population
+        TextView tvName = (TextView) convertView.findViewById(R.id.text_view_item);
+
+        convertView.setLayoutParams(new ListView.LayoutParams(ListView.LayoutParams
+                .MATCH_PARENT, task.getHeight()));
+        // Populate the data into the template view using the data object
+        tvName.setText(task.getTitle());
+        // Return the completed view to render on screen
+        return convertView;
+    }
+
+
+    public void addStableIdForDataAtPosition(int position) {
+        mIdMap.put(taskLists.get(position), ++mCounter);
+    }
+
 
     @Override
     public boolean hasStableIds() {

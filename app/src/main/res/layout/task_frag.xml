@@ -41,12 +41,12 @@
         android:layout_above="@+id/list_slot"
         android:background="@drawable/transparent_background">
 
-        <ListView
+        <morten.plan_penny.Tasks.DynamicListView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:animateLayoutChanges="true"
             android:scrollbars="none"
             android:overScrollMode="never"
             android:id="@+id/list"/>
+
     </FrameLayout>
 </LinearLayout>

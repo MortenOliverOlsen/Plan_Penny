@@ -26,10 +26,11 @@ public class Tasks_fragment extends Fragment implements View.OnClickListener{
     private View taskFrag;
     private TextView header;
     private Button addButton;
-    private ListView listView;
-    private CustomArrayAdapter listAdapter;
-    private ArrayList<TaskListItem> listItems;
+    private DynamicListView listView;
+    private StableArrayAdapter listAdapter;
+    private  ArrayList<TaskListItem> listItems;
     int taskCounter = 1;
+    int mCellHeight = 80;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,10 +39,12 @@ public class Tasks_fragment extends Fragment implements View.OnClickListener{
         Typeface latoReg = Typeface.createFromAsset(getActivity().getAssets(), "lato_regular.ttf");
 
         listItems = new ArrayList<>();
-        listAdapter = new CustomArrayAdapter(taskFrag.getContext(),R.layout.list_view_item,listItems);
+        listAdapter = new StableArrayAdapter(taskFrag.getContext(),R.layout.list_view_item,listItems);
 
-        listView = (ListView) taskFrag.findViewById(R.id.list);
+        listView = (DynamicListView) taskFrag.findViewById(R.id.list);
+        listView.setTaskList(listItems);
         listView.setAdapter(listAdapter);
+        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
         header = (TextView) taskFrag.findViewById(R.id.textView_header);
         header.setTypeface(latoReg);
@@ -52,12 +55,23 @@ public class Tasks_fragment extends Fragment implements View.OnClickListener{
         return taskFrag;
     }
 
+    public void addRow(View view) {
+        addButton.setEnabled(false);
+
+        taskCounter++;
+        final TaskListItem newObj = new TaskListItem("New task " + taskCounter,mCellHeight);
+
+        listView.setEnabled(false);
+        listView.addRow(newObj);
+
+        listView.setEnabled(true);
+        addButton.setEnabled(true);
+    }
+
     @Override
     public void onClick(View v) {
         if (v == addButton){
-        TaskListItem task = new TaskListItem("New task " + taskCounter,80);
-        listAdapter.insert(task,0);
-            taskCounter++;
+        addRow(v);
         }
     }
 }
