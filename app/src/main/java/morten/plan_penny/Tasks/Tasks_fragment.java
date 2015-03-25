@@ -29,7 +29,7 @@ public class Tasks_fragment extends Fragment implements View.OnClickListener{
     private DynamicListView listView;
     private StableArrayAdapter listAdapter;
     private  ArrayList<TaskListItem> listItems;
-    int taskCounter = 1;
+    int taskCounter = 0;
     int mCellHeight = 80;
 
     @Override
@@ -71,7 +71,8 @@ public class Tasks_fragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         if (v == addButton){
-        addRow(v);
+            addRow(v);
+            listView.smoothScrollToPosition(0);
         }
     }
 }

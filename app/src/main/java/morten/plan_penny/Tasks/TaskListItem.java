@@ -8,7 +8,7 @@ import morten.plan_penny.Categories.Category;
 /**
  * Created by morten on 3/18/15.
  */
-public class TaskListItem {
+public class TaskListItem{
 
     private String mTitle;
     private Date startDate;
