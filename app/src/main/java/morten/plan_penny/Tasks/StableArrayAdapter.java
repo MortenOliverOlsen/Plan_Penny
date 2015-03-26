@@ -58,7 +58,7 @@ public class StableArrayAdapter extends ArrayAdapter<TaskListItem> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        TaskListItem task = getItem(position);
+        final TaskListItem task = getItem(position);
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {

@@ -45,6 +45,7 @@ implements Menu_fragment.OnButtonSelectedListener {
 
     @Override
     public void onButtonSelected(int position) {
+
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (currentPos < position) {
@@ -73,5 +74,6 @@ implements Menu_fragment.OnButtonSelectedListener {
             fragmentTransaction.replace(R.id.content_frag, categories_fragment).commit();
         }
         currentPos = position;
+
     }
 }
