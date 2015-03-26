@@ -8,7 +8,7 @@ import morten.plan_penny.Categories.Category;
 /**
  * Created by morten on 3/18/15.
  */
-public class TaskListItem{
+public class TaskListItem implements OnSizeChangedListener{
 
     private String mTitle;
     private Date startDate;
@@ -18,13 +18,23 @@ public class TaskListItem{
     private ArrayList<Category> categories;
     private String taskDescription;
 
+    // Expanded attributes
+    private boolean mIsExpanded;
+    private int mCollapsedHeight;
+    private int mExpandedHeight;
+
+
+
     private int mHeight;
 
 
-    public TaskListItem(String title, int height) {
+    public TaskListItem(String title,int collapsedHeight, String description) {
         super();
         mTitle = title;
-        mHeight = height;
+        mCollapsedHeight = collapsedHeight;
+        mIsExpanded = false;
+        mExpandedHeight = -1;
+        taskDescription = description;
     }
 
     public Date getStartDate() {
@@ -89,5 +99,36 @@ public class TaskListItem{
 
     public void setmHeight(int mHeight) {
         this.mHeight = mHeight;
+    }
+
+    // expanded
+
+    public boolean isExpanded() {
+        return mIsExpanded;
+    }
+
+    public void setExpanded(boolean isExpanded) {
+        mIsExpanded = isExpanded;
+    }
+
+    public int getCollapsedHeight() {
+        return mCollapsedHeight;
+    }
+
+    public void setCollapsedHeight(int collapsedHeight) {
+        mCollapsedHeight = collapsedHeight;
+    }
+
+    public int getExpandedHeight() {
+        return mExpandedHeight;
+    }
+
+    public void setExpandedHeight(int expandedHeight) {
+        mExpandedHeight = expandedHeight;
+    }
+
+    @Override
+    public void onSizeChanged(int newHeight) {
+        setExpandedHeight(newHeight);
     }
 }

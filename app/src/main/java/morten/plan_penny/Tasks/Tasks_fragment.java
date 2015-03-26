@@ -59,7 +59,8 @@ public class Tasks_fragment extends Fragment implements View.OnClickListener{
         addButton.setEnabled(false);
 
         taskCounter++;
-        final TaskListItem newObj = new TaskListItem("New task " + taskCounter,mCellHeight);
+        String description = "This is string " + taskCounter + " and it has not yet received a description. Som Michael Jackson engang sagde: Blodet i os allesammen er ens";
+        final TaskListItem newObj = new TaskListItem("New task " + taskCounter,mCellHeight, description);
 
         listView.setEnabled(false);
         listView.addRow(newObj);

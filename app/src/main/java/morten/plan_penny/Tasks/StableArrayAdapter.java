@@ -17,10 +17,14 @@
 package morten.plan_penny.Tasks;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -60,14 +64,35 @@ public class StableArrayAdapter extends ArrayAdapter<TaskListItem> {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_view_item, parent, false);
         }
-        // Lookup view for data population
-        TextView tvName = (TextView) convertView.findViewById(R.id.text_view_item);
+        // expanded
+        LinearLayout linearLayout = (LinearLayout)(convertView.findViewById(
+                R.id.item_linear_layout));
+        LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams
+                (AbsListView.LayoutParams.MATCH_PARENT, task.getCollapsedHeight());
+        linearLayout.setLayoutParams(linearLayoutParams);
 
-        convertView.setLayoutParams(new ListView.LayoutParams(ListView.LayoutParams
-                .MATCH_PARENT, task.getHeight()));
-        // Populate the data into the template view using the data object
-        tvName.setText(task.getTitle());
-        // Return the completed view to render on screen
+        TextView titleView = (TextView)convertView.findViewById(R.id.title_view);
+        TextView textView = (TextView)convertView.findViewById(R.id.text_view);
+
+        titleView.setText(task.getTitle());
+
+        textView.setText(task.getTaskDescription());
+
+        convertView.setLayoutParams(new ListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
+                AbsListView.LayoutParams.WRAP_CONTENT));
+
+        ExpandedLayout expandingLayout = (ExpandedLayout)convertView.findViewById(R.id
+                .expanding_layout);
+        expandingLayout.setExpandedHeight(task.getExpandedHeight());
+        expandingLayout.setSizeChangedListener(task);
+
+        if (!task.isExpanded()) {
+            expandingLayout.setVisibility(View.GONE);
+        } else {
+            expandingLayout.setVisibility(View.VISIBLE);
+        }
+
+
         return convertView;
     }
 
