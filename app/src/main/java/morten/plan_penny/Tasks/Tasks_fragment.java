@@ -1,6 +1,7 @@
 package morten.plan_penny.Tasks;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,12 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import morten.plan_penny.R;
 import morten.plan_penny.Tasks.TaskListItem;
@@ -26,9 +30,15 @@ public class Tasks_fragment extends Fragment implements View.OnClickListener{
     private View taskFrag;
     private TextView header;
     private Button addButton;
+
     private DynamicListView listView;
-    private StableArrayAdapter listAdapter;
+
+
+   private StableArrayAdapter listAdapter;
+
     private  ArrayList<TaskListItem> listItems;
+
+
     int taskCounter = 0;
     int mCellHeight = 80;
 
@@ -39,9 +49,13 @@ public class Tasks_fragment extends Fragment implements View.OnClickListener{
         Typeface latoReg = Typeface.createFromAsset(getActivity().getAssets(), "lato_regular.ttf");
 
         listItems = new ArrayList<>();
-        listAdapter = new StableArrayAdapter(taskFrag.getContext(),R.layout.list_view_item,listItems);
+
+        listAdapter = new StableArrayAdapter(listItems, taskFrag.getContext(), (LayoutInflater) taskFrag.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE));
+
 
         listView = (DynamicListView) taskFrag.findViewById(R.id.list);
+
+        listView.setGroupIndicator(null);
         listView.setTaskList(listItems);
         listView.setAdapter(listAdapter);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -55,25 +69,32 @@ public class Tasks_fragment extends Fragment implements View.OnClickListener{
         return taskFrag;
     }
 
-    public void addRow(View view) {
+    public void addRow() {
         addButton.setEnabled(false);
 
         taskCounter++;
-        String description = "This is string " + taskCounter + " and it has not yet received a description. Som Michael Jackson engang sagde: Blodet i os allesammen er ens";
+        String description = "This is string " + taskCounter + " and it has not yet received a description";
         final TaskListItem newObj = new TaskListItem("New task " + taskCounter,mCellHeight, description);
+
 
         listView.setEnabled(false);
         listView.addRow(newObj);
 
+
+
+
         listView.setEnabled(true);
         addButton.setEnabled(true);
+
+
+
+
     }
 
     @Override
     public void onClick(View v) {
         if (v == addButton){
-            addRow(v);
-            listView.smoothScrollToPosition(0);
+            addRow();
         }
     }
 }

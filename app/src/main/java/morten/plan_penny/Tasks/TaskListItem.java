@@ -8,7 +8,7 @@ import morten.plan_penny.Categories.Category;
 /**
  * Created by morten on 3/18/15.
  */
-public class TaskListItem implements OnSizeChangedListener{
+public class TaskListItem {
 
     private String mTitle;
     private Date startDate;
@@ -18,22 +18,14 @@ public class TaskListItem implements OnSizeChangedListener{
     private ArrayList<Category> categories;
     private String taskDescription;
 
-    // Expanded attributes
-    private boolean mIsExpanded;
-    private int mCollapsedHeight;
-    private int mExpandedHeight;
-
-
-
     private int mHeight;
+    boolean checked = false;
 
 
     public TaskListItem(String title,int collapsedHeight, String description) {
         super();
         mTitle = title;
-        mCollapsedHeight = collapsedHeight;
-        mIsExpanded = false;
-        mExpandedHeight = -1;
+        mHeight = collapsedHeight;
         taskDescription = description;
     }
 
@@ -101,34 +93,11 @@ public class TaskListItem implements OnSizeChangedListener{
         this.mHeight = mHeight;
     }
 
-    // expanded
-
-    public boolean isExpanded() {
-        return mIsExpanded;
+    public boolean isChecked() {
+        return checked;
     }
 
-    public void setExpanded(boolean isExpanded) {
-        mIsExpanded = isExpanded;
-    }
-
-    public int getCollapsedHeight() {
-        return mCollapsedHeight;
-    }
-
-    public void setCollapsedHeight(int collapsedHeight) {
-        mCollapsedHeight = collapsedHeight;
-    }
-
-    public int getExpandedHeight() {
-        return mExpandedHeight;
-    }
-
-    public void setExpandedHeight(int expandedHeight) {
-        mExpandedHeight = expandedHeight;
-    }
-
-    @Override
-    public void onSizeChanged(int newHeight) {
-        setExpandedHeight(newHeight);
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }

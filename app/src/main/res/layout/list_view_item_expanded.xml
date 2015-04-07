@@ -1,0 +1,79 @@
+<!-- Copyright (C) 2013 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#333333"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/item_linear_layout"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical">
+
+            <CheckedTextView
+                android:id="@+id/title_view"
+                android:layout_height="fill_parent"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="15dp"
+
+                android:gravity="center_vertical|start"
+                android:textSize="24sp"
+                android:textColor="#ffffff"/>
+
+
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_weight="5"
+            android:layout_height="fill_parent">
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/delete_task_button"
+                android:layout_margin="15dp"
+
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:visibility="visible"
+                android:id="@+id/delete_button" />
+
+            <CheckBox
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/checkbox_task"
+                android:layout_margin="15dp"
+                android:visibility="visible"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:button="@null"
+                android:background="@drawable/checkbox_button"
+                />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

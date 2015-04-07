@@ -17,15 +17,16 @@
 package morten.plan_penny.Tasks;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -33,77 +34,202 @@ import java.util.List;
 
 import morten.plan_penny.R;
 
-public class StableArrayAdapter extends ArrayAdapter<TaskListItem> {
+public class StableArrayAdapter extends BaseExpandableListAdapter{
 
     final int INVALID_ID = -1;
 
     HashMap<TaskListItem, Integer> mIdMap = new HashMap<TaskListItem, Integer>();
-    List<TaskListItem> taskLists;
-    int mCounter;
 
-    public StableArrayAdapter(Context context, int textViewResourceId, List<TaskListItem> objects) {
-        super(context, textViewResourceId, objects);
-        taskLists = objects;
+
+    private List<TaskListItem> listItems;
+    int mCounter;
+    private Context context;
+    private LayoutInflater inflater;
+
+    Typeface latoReg;
+
+    public StableArrayAdapter(List<TaskListItem> objects, Context context, LayoutInflater inflater) {
+        listItems = objects;
+        setInflater(inflater,context);
+        latoReg = Typeface.createFromAsset(context.getAssets(), "lato_regular.ttf");
     }
 
-    @Override
+    public void setInflater(LayoutInflater inflater, Context context) {
+        this.inflater = inflater;
+        this.context = context;
+    }
+
     public long getItemId(int position) {
+        System.out.println("mIdMap = " + mIdMap.size());
         if (position < 0 || position >= mIdMap.size()) {
             return INVALID_ID;
         }
-        TaskListItem item = getItem(position);
+        TaskListItem item = listItems.get(position);
         return mIdMap.get(item);
     }
 
+    public void printArray(){
+        String array = null;
+        for (int i = 0; i < listItems.size(); i++){
+            TaskListItem item = listItems.get(i);
+            array += item.getTitle()+", ";
+        }
+        System.out.println("array = " + array);
+    }
+
+
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        // Get the data item for this position
-        final TaskListItem task = getItem(position);
+    public View getChildView(int parentPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
-        // Check if an existing view is being reused, otherwise inflate the view
+        TextView textView = null;
+
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_view_item, parent, false);
+            convertView = inflater.inflate(R.layout.child_layout, null);
         }
-        // expanded
-        LinearLayout linearLayout = (LinearLayout)(convertView.findViewById(
-                R.id.item_linear_layout));
-        LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams
-                (AbsListView.LayoutParams.MATCH_PARENT, task.getCollapsedHeight());
-        linearLayout.setLayoutParams(linearLayoutParams);
 
-        TextView titleView = (TextView)convertView.findViewById(R.id.title_view);
-        TextView textView = (TextView)convertView.findViewById(R.id.text_view);
+        Typeface latoReg = Typeface.createFromAsset(context.getAssets(), "lato_regular.ttf");
+        textView = (TextView) convertView.findViewById(R.id.textView1);
 
-        titleView.setText(task.getTitle());
 
-        textView.setText(task.getTaskDescription());
+        textView.setText(listItems.get(parentPosition).getTaskDescription());
+        textView.setTypeface(latoReg);
 
-        convertView.setLayoutParams(new ListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
-                AbsListView.LayoutParams.WRAP_CONTENT));
+        return convertView;
+    }
 
-        ExpandedLayout expandingLayout = (ExpandedLayout)convertView.findViewById(R.id
-                .expanding_layout);
-        expandingLayout.setExpandedHeight(task.getExpandedHeight());
-        expandingLayout.setSizeChangedListener(task);
+    // Get parent view
+    @Override
+    public View getGroupView(final int parentPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
-        if (!task.isExpanded()) {
-            expandingLayout.setVisibility(View.GONE);
-        } else {
-            expandingLayout.setVisibility(View.VISIBLE);
+        final TaskListItem task = listItems.get(parentPosition);
+
+
+
+        if (convertView == null) {
+            convertView = inflater.inflate(R.layout.list_view_item_expanded, null);
         }
+
+        CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.checkbox_task);
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                task.setChecked(!task.isChecked());
+            }
+        });
+        checkBox.setChecked(task.isChecked());
+        Button deleteBTN = (Button) convertView.findViewById(R.id.delete_button);
+
+        if (isExpanded){
+              checkBox.setVisibility(View.INVISIBLE);
+              deleteBTN.setVisibility(View.VISIBLE);
+          //  convertView = inflater.inflate(R.layout.list_view_item_expanded, null);
+
+            deleteBTN.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    removeItem(parentPosition);
+                }
+            });
+        }else {
+
+              deleteBTN.setVisibility(View.GONE);
+              checkBox.setVisibility(View.VISIBLE);
+          //  convertView = inflater.inflate(R.layout.list_view_item_normal, null);
+
+        }
+
+
+
+
+
+
+        convertView.setLayoutParams(new ListView.LayoutParams(ListView.LayoutParams
+                .MATCH_PARENT, task.getHeight()));
+
+
+        CheckedTextView tw = (CheckedTextView) convertView.findViewById(R.id.title_view);
+        tw.setText(task.getTitle());
+        tw.setTypeface(latoReg);
+        tw.setChecked(isExpanded);
+
+
 
 
         return convertView;
     }
 
+    public View getView(int position, View convertView, ViewGroup parent) {
+        // Get the data item for this position
+        final TaskListItem task = listItems.get(position);
 
-    public void addStableIdForDataAtPosition(int position) {
-        mIdMap.put(taskLists.get(position), ++mCounter);
+        // Check if an existing view is being reused, otherwise inflate the view
+        if (convertView == null) {
+          //  convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_view_item_expanded, parent, false);
+        }
+
+        // Lookup view for data population
+        TextView tvName = (TextView) convertView.findViewById(R.id.title_view);
+
+        convertView.setLayoutParams(new ListView.LayoutParams(ListView.LayoutParams
+                .MATCH_PARENT, task.getHeight()));
+        // Populate the data into the template view using the data object
+        tvName.setText(task.getTitle());
+        return convertView;
     }
 
+
+    public void addStableIdForDataAtPosition(int position) {
+        mIdMap.put(listItems.get(position), ++mCounter);
+    }
+
+
+
+    @Override
+    public boolean isChildSelectable(int groupPosition, int childPosition) {
+        return false;
+    }
+
+    @Override
+    public int getGroupCount() {
+        return listItems.size();
+    }
+
+    @Override
+    public int getChildrenCount(int groupPosition) {
+        return 1;
+    }
+
+    @Override
+    public Object getGroup(int groupPosition) {
+        return null;
+    }
+
+    @Override
+    public Object getChild(int groupPosition, int childPosition) {
+        return null;
+    }
+
+    @Override
+    public long getGroupId(int groupPosition) {
+        return getItemId(groupPosition);
+    }
+
+    @Override
+    public long getChildId(int groupPosition, int childPosition) {
+        return 0;
+    }
 
     @Override
     public boolean hasStableIds() {
         return true;
     }
+
+    public void removeItem(int position){
+        TaskListItem removedItem = listItems.get(position);
+        mIdMap.remove(removedItem);
+        listItems.remove(position);
+        notifyDataSetChanged();
+    }
+
+
 }
