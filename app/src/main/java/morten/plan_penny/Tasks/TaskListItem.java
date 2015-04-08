@@ -27,6 +27,7 @@ public class TaskListItem {
         mTitle = title;
         mHeight = collapsedHeight;
         taskDescription = description;
+        categories = new ArrayList<>();
     }
 
     public Date getStartDate() {
@@ -99,5 +100,9 @@ public class TaskListItem {
 
     public void setChecked(boolean checked) {
         this.checked = checked;
+    }
+
+    public void addCategory(Category cat) {
+        this.categories.add(cat);
     }
 }

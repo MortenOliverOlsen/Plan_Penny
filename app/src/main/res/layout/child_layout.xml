@@ -6,15 +6,330 @@
     android:clickable="true"
     android:orientation="vertical"
     tools:context=".MainActivity" >
-        
+
+    <LinearLayout
+        android:id="@+id/start_date"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/border"
+        >
+
         <TextView
-            android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textIsSelectable="true"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center_horizontal|start"
+            android:text="Start: "
+            android:textSize="18sp"
+            android:textColor="#ffffff"
+            android:id="@+id/task_start_textView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="5"
+            android:layout_marginTop="4dp"
+            android:id="@+id/start_date_tw"
+            android:gravity="center_horizontal"
+            android:text="Start Date"
+            android:textSize="18sp"
+            android:textColor="#707070"
+            android:background="@drawable/task_edittext"
+             />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center_horizontal"
+            android:text="  at  "
+            android:textSize="18sp"
+            android:textColor="#ffffff"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="3"
+            android:layout_marginTop="4dp"
+            android:id="@+id/start_time"
+            android:gravity="center_horizontal"
+            android:text="00:00"
+            android:textSize="18sp"
+            android:textColor="#707070"
+            android:background="@drawable/task_edittext"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/end_date"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/border"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center_vertical|start"
+            android:text="End:   "
+            android:textSize="18sp"
+            android:textColor="#ffffff"
+            android:id="@+id/task_end_textView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="5"
+            android:layout_marginTop="4dp"
+            android:id="@+id/end_date_tw"
+            android:gravity="center_horizontal"
+            android:text="End Date"
+            android:textSize="18sp"
+            android:textColor="#707070"
+            android:background="@drawable/task_edittext"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center_horizontal"
+            android:text="  at  "
+            android:textSize="18sp"
+            android:textColor="#ffffff"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="3"
+            android:layout_marginTop="4dp"
+            android:id="@+id/end_time"
+            android:gravity="center_horizontal"
+            android:text="00:00"
+            android:textSize="18sp"
+            android:textColor="#707070"
+            android:background="@drawable/task_edittext"
+            />
+        </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/reminder"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/border"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center_vertical|start"
+            android:text="Alert: "
+            android:textSize="18sp"
+            android:textColor="#ffffff"
+            android:id="@+id/task_alert_textView" />
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="5"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="2dp"
+            android:id="@+id/reminder_date_tw"
+            android:gravity="center_horizontal"
+            android:text="Alert Date"
+            android:textSize="18sp"
+            android:textColor="#707070"
+            android:background="@drawable/task_edittext"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center_horizontal"
+            android:text="  at  "
+            android:textSize="18sp"
+            android:textColor="#ffffff"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="3"
+            android:layout_marginTop="4dp"
+            android:id="@+id/alarm_hours"
+            android:gravity="center_horizontal"
+            android:text="00:00"
+            android:textSize="18sp"
+            android:textColor="#707070"
+            android:background="@drawable/task_edittext"
+            />
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/category"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/border"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center_vertical|start"
+            android:text="Category:"
+            android:textSize="18sp"
+            android:textColor="#ffffff"
+            android:id="@+id/task_category_textView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:ems="9"
+            android:gravity="center_horizontal"
+            android:text="+ Add Category..."
+            android:textSize="18sp"
+            android:textColor="#707070"
+            android:background="@drawable/task_edittext"
+            android:id="@+id/addCatBtn" />
+
+        <TextView
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="1"
+            android:layout_margin="4dp"
+            android:id="@+id/cat1_box"
+            android:gravity="center_horizontal"
+            android:textSize="18sp"
+            android:textColor="#707070"
+            android:background="@drawable/task_edittext"
+            />
+
+        <TextView
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="1"
+            android:layout_margin="4dp"
+            android:id="@+id/cat2_box"
+            android:gravity="center_horizontal"
+            android:textSize="18sp"
+            android:textColor="#707070"
+            android:background="@drawable/task_edittext"
+            />
+
+        <TextView
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="1"
+            android:layout_margin="4dp"
+            android:id="@+id/cat3_box"
+            android:gravity="center_horizontal"
+            android:textSize="18sp"
+            android:textColor="#707070"
+            android:background="@drawable/task_edittext"
+            />
+        <TextView
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="1"
+            android:layout_margin="4dp"
+            android:id="@+id/cat4_box"
+            android:gravity="center_horizontal"
+            android:textSize="18sp"
+            android:textColor="#707070"
+            android:background="@drawable/task_edittext"
+            />
+        <TextView
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="1"
+            android:layout_margin="4dp"
+            android:id="@+id/cat5_box"
+            android:gravity="center_horizontal"
+            android:textSize="18sp"
+            android:textColor="#707070"
+            android:background="@drawable/task_edittext"
+            />
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/description"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/border"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:gravity="center_vertical|start"
+            android:text="Description:"
+            android:textSize="18sp"
+            android:textColor="#ffffff"
+            android:id="@+id/task_description_textView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="5dp"
+            android:ems="9"
+            android:gravity="center_horizontal"
+            android:text="+ Add Description..."
+            android:textSize="18sp"
+            android:textColor="#707070"
+            android:background="@drawable/task_edittext"
+            android:id="@+id/addDescBtn" />
+
+
+        <TextView
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:gravity="center_vertical|start"
+            android:text="Description:"
+            android:textSize="18sp"
+            android:textColor="#ffffff"
+            android:id="@+id/content_description_textView" />
+
+        </LinearLayout>
 
 
 </LinearLayout>

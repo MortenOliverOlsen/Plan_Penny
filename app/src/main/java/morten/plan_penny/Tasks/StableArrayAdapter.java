@@ -17,6 +17,7 @@
 package morten.plan_penny.Tasks;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CheckedTextView;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -32,7 +34,10 @@ import android.widget.TextView;
 import java.util.HashMap;
 import java.util.List;
 
+import morten.plan_penny.Categories.Category;
 import morten.plan_penny.R;
+
+import static android.graphics.Color.parseColor;
 
 public class StableArrayAdapter extends BaseExpandableListAdapter{
 
@@ -81,17 +86,32 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
     @Override
     public View getChildView(int parentPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
-        TextView textView = null;
+        final TaskListItem task = listItems.get(parentPosition);
+
+        Typeface latoReg = Typeface.createFromAsset(context.getAssets(), "lato_regular.ttf");
+
+        TextView startDate = null;
+        TextView startTime = null;
+        TextView endDate = null;
+        TextView endTime = null;
+        TextView alertDate = null;
+        TextView alertTime = null;
+        TextView description = null;
 
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.child_layout, null);
         }
 
-        Typeface latoReg = Typeface.createFromAsset(context.getAssets(), "lato_regular.ttf");
-        textView = (TextView) convertView.findViewById(R.id.textView1);
+        // Start field
 
+        // End field
 
-        textView.setText(listItems.get(parentPosition).getTaskDescription());
+        // Alert field
+
+        // Category field
+
+        // Description field
+
         textView.setTypeface(latoReg);
 
         return convertView;
@@ -102,7 +122,6 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
     public View getGroupView(final int parentPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
         final TaskListItem task = listItems.get(parentPosition);
-
 
 
         if (convertView == null) {
@@ -122,36 +141,91 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
         if (isExpanded){
               checkBox.setVisibility(View.INVISIBLE);
               deleteBTN.setVisibility(View.VISIBLE);
-          //  convertView = inflater.inflate(R.layout.list_view_item_expanded, null);
-
             deleteBTN.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     removeItem(parentPosition);
+                    notifyDataSetChanged();
                 }
             });
         }else {
-
               deleteBTN.setVisibility(View.GONE);
               checkBox.setVisibility(View.VISIBLE);
-          //  convertView = inflater.inflate(R.layout.list_view_item_normal, null);
 
         }
 
-
-
-
-
-
         convertView.setLayoutParams(new ListView.LayoutParams(ListView.LayoutParams
                 .MATCH_PARENT, task.getHeight()));
-
 
         CheckedTextView tw = (CheckedTextView) convertView.findViewById(R.id.title_view);
         tw.setText(task.getTitle());
         tw.setTypeface(latoReg);
         tw.setChecked(isExpanded);
 
+
+        // Set categories
+        for (int i = 0; i < 5; i++){
+            Category c = null;
+            if (i < task.getCategories().size()){
+                c = task.getCategories().get(i);
+            }
+
+            switch (i){
+                case 0:
+                    FrameLayout cat1 = (FrameLayout) convertView.findViewById(R.id.cat1);
+                    if (c != null){
+                        cat1.setVisibility(View.VISIBLE);
+                        int color = Color.parseColor(c.getColor());
+                        cat1.setBackgroundColor(color);
+                    } else {
+                        cat1.setVisibility(View.GONE);
+                    }
+
+                    break;
+                case 1:
+                    FrameLayout cat2 = (FrameLayout) convertView.findViewById(R.id.cat2);
+                    if (c != null){
+                        cat2.setVisibility(View.VISIBLE);
+                        int color = Color.parseColor(c.getColor());
+                        cat2.setBackgroundColor(color);
+                    } else {
+                        cat2.setVisibility(View.GONE);
+                    }
+                    break;
+                case 2:
+                    FrameLayout cat3 = (FrameLayout) convertView.findViewById(R.id.cat3);
+                    if (c != null){
+                        cat3.setVisibility(View.VISIBLE);
+                        int color = Color.parseColor(c.getColor());
+                        cat3.setBackgroundColor(color);
+                    } else {
+                        cat3.setVisibility(View.GONE);
+                    }
+                    break;
+                case 3:
+                    FrameLayout cat4 = (FrameLayout) convertView.findViewById(R.id.cat4);
+                    if (c != null){
+                        cat4.setVisibility(View.VISIBLE);
+                        int color = Color.parseColor(c.getColor());
+                        cat4.setBackgroundColor(color);
+                    } else {
+                        cat4.setVisibility(View.GONE);
+                    }
+                    break;
+                case 4:
+                    FrameLayout cat5 = (FrameLayout) convertView.findViewById(R.id.cat5);
+                    if (c != null){
+                        cat5.setVisibility(View.VISIBLE);
+                        int color = Color.parseColor(c.getColor());
+                        cat5.setBackgroundColor(color);
+                    } else {
+                        cat5.setVisibility(View.GONE);
+                    }
+                    break;
+            }
+
+
+        }
 
 
 

@@ -147,7 +147,6 @@ public class DynamicListView extends ExpandableListView {
 
                   //  View selectedView = getViewForID(itemNum);
                     View selectedView = getChildAt(position);
-
                     TextView tw = (TextView) selectedView.findViewById(R.id.title_view);
                     System.out.println("tw = " + tw.getText());
 
@@ -634,15 +633,18 @@ public class DynamicListView extends ExpandableListView {
     adapter.addStableIdForDataAtPosition(0);
     adapter.notifyDataSetChanged();
 
+        View selectedView = adapter.getGroupView(0,false,null,null);
+
+        CheckedTextView tw = (CheckedTextView) selectedView.findViewById(R.id.title_view);
+        System.out.println("tw = " + tw.getText());
+
+        tw.setText("Hej Morten");
+        tw.setSelectAllOnFocus(true);
+        tw.hasFocus();
+
 
         smoothScrollToPosition(0);
-       // View selectedView = getChildAt(0);
 
-      //  CheckedTextView tw = (CheckedTextView) selectedView.findViewById(R.id.title_view);
-        //System.out.println("tw = " + tw.getText());
-
-         // tw.setSelectAllOnFocus(true);
-         // tw.hasFocus();
 
     }
 
@@ -653,4 +655,15 @@ public class DynamicListView extends ExpandableListView {
         adapter.notifyDataSetChanged();
     }
 
+    public void typeTaskName(TaskListItem newObj) {
+
+        View selectedView = getViewForID(1);
+
+        CheckedTextView tw = (CheckedTextView) selectedView.findViewById(R.id.title_view);
+        System.out.println("tw = " + tw.getText());
+
+        tw.setSelectAllOnFocus(true);
+        tw.hasFocus();
+
+    }
 }

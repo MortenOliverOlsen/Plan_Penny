@@ -35,19 +35,15 @@
                 android:layout_height="fill_parent"
                 android:layout_width="match_parent"
                 android:layout_marginLeft="15dp"
-
                 android:gravity="center_vertical|start"
-                android:textSize="24sp"
+                android:textSize="26sp"
                 android:textColor="#ffffff"/>
-
-
 
         </FrameLayout>
 
         <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_weight="5"
-            android:layout_height="fill_parent">
+            android:layout_width="55dp"
+            android:layout_height="match_parent">
 
             <Button
                 android:layout_width="fill_parent"
@@ -74,6 +70,40 @@
 
         </FrameLayout>
 
-    </LinearLayout>
+        <FrameLayout
+            android:id="@+id/cat5"
+            android:visibility="visible"
+            android:layout_width="4dp"
+            android:layout_height="fill_parent">
+            </FrameLayout>
 
+        <FrameLayout
+            android:id="@+id/cat4"
+            android:visibility="visible"
+            android:layout_width="4dp"
+            android:layout_height="fill_parent">
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/cat3"
+            android:visibility="visible"
+            android:layout_width="4dp"
+            android:layout_height="fill_parent">
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/cat2"
+            android:visibility="visible"
+            android:layout_width="4dp"
+            android:layout_height="fill_parent">
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/cat1"
+            android:visibility="visible"
+            android:layout_width="4dp"
+            android:layout_height="fill_parent">
+        </FrameLayout>
+
+    </LinearLayout>
 </LinearLayout>
