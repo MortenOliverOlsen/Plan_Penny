@@ -73,35 +73,35 @@
         <FrameLayout
             android:id="@+id/cat5"
             android:visibility="visible"
-            android:layout_width="4dp"
+            android:layout_width="5dp"
             android:layout_height="fill_parent">
             </FrameLayout>
 
         <FrameLayout
             android:id="@+id/cat4"
             android:visibility="visible"
-            android:layout_width="4dp"
+            android:layout_width="5dp"
             android:layout_height="fill_parent">
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/cat3"
             android:visibility="visible"
-            android:layout_width="4dp"
+            android:layout_width="5dp"
             android:layout_height="fill_parent">
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/cat2"
             android:visibility="visible"
-            android:layout_width="4dp"
+            android:layout_width="5dp"
             android:layout_height="fill_parent">
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/cat1"
             android:visibility="visible"
-            android:layout_width="4dp"
+            android:layout_width="5dp"
             android:layout_height="fill_parent">
         </FrameLayout>
 

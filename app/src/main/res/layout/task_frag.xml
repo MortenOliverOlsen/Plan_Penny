@@ -31,6 +31,7 @@
             android:background="@drawable/add_task_button"
             android:layout_margin="5dp"
             android:layout_gravity="right|bottom" />
+
     </FrameLayout>
 
     <FrameLayout

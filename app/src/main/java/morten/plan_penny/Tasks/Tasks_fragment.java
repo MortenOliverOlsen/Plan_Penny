@@ -83,7 +83,8 @@ public class Tasks_fragment extends Fragment implements View.OnClickListener{
 
 
 
-        final TaskListItem newObj = new TaskListItem("New task " + taskCounter,mCellHeight, description);
+        final TaskListItem newObj = new TaskListItem(mCellHeight);
+        newObj.setTitle("New task " + taskCounter);
         newObj.addCategory(c1);
         newObj.addCategory(c2);
 

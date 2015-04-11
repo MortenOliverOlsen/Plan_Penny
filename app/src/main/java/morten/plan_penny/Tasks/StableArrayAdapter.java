@@ -16,19 +16,25 @@
 
 package morten.plan_penny.Tasks;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.text.InputType;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CheckedTextView;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -36,8 +42,6 @@ import java.util.List;
 
 import morten.plan_penny.Categories.Category;
 import morten.plan_penny.R;
-
-import static android.graphics.Color.parseColor;
 
 public class StableArrayAdapter extends BaseExpandableListAdapter{
 
@@ -84,35 +88,258 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
 
 
     @Override
-    public View getChildView(int parentPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(final int parentPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
         final TaskListItem task = listItems.get(parentPosition);
 
         Typeface latoReg = Typeface.createFromAsset(context.getAssets(), "lato_regular.ttf");
+        TextView startDate;
+        TextView startTime;
+        TextView endDate;
+        TextView endTime;
+        final TextView ttc;
+        TextView alertDate;
+        TextView alertTime;
+        final TextView descriptionBTN;
+        final EditText description;
 
-        TextView startDate = null;
-        TextView startTime = null;
-        TextView endDate = null;
-        TextView endTime = null;
-        TextView alertDate = null;
-        TextView alertTime = null;
-        TextView description = null;
+        final TimeAndDatePicker picker = new TimeAndDatePicker(context);
 
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.child_layout, null);
         }
 
+
+        // Menu
+        Button deleteBTN = (Button) convertView.findViewById(R.id.delete_button);
+
+        deleteBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeItem(parentPosition);
+                notifyDataSetChanged();
+            }
+        });
+
+
+
         // Start field
+            // Date
+        startDate = (TextView) convertView.findViewById(R.id.start_date_btn);
+        startDate.setTypeface(latoReg);
+
+            startDate.setText(task.getStartDate());
+
+
+        startDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              picker.setDateOnView((TextView) v, task,1);
+
+            }
+        });
+
+
+
+            // Time
+        startTime = (TextView) convertView.findViewById(R.id.start_time);
+        startTime.setTypeface(latoReg);
+
+        startTime.setText(task.getStartTime());
+
+
+        startTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                picker.setTimeOnView((TextView) v, task,1);
+            }
+        });
 
         // End field
+        // Date
+        endDate = (TextView) convertView.findViewById(R.id.end_date_tw);
+        endDate.setTypeface(latoReg);
+
+        endDate.setText(task.getEndDate());
+
+
+        endDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                picker.setDateOnView((TextView) v, task,2);
+
+            }
+        });
+
+
+        // Time
+        endTime = (TextView) convertView.findViewById(R.id.end_time);
+        endTime.setTypeface(latoReg);
+
+        endTime.setText(task.getEndTime());
+
+
+        endTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                picker.setTimeOnView((TextView) v, task,2);
+            }
+        });
+
+        // Time to complete
+        ttc = (TextView) convertView.findViewById(R.id.ttl_button);
+        ttc.setTypeface(latoReg);
+        String ttcString = String.valueOf(task.getTtc());
+        ttc.setText(ttcString);
+        ttc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+
+                alert.setTitle("Time to complete");
+                alert.setMessage("Type in number of hours");
+
+                        // Set an EditText view to get user input
+                final EditText input = new EditText(context);
+                input.setInputType(InputType.TYPE_CLASS_NUMBER);
+                alert.setView(input);
+                input.requestFocus();
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String value = input.getText().toString();
+                        ttc.setText(value);
+                        task.setTtc(Integer.parseInt(value));
+                    }
+                });
+
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Canceled.
+                    }
+                });
+
+                alert.show();
+            }
+        });
 
         // Alert field
+        // Date
+        alertDate = (TextView) convertView.findViewById(R.id.alert_date_tw);
+        alertDate.setTypeface(latoReg);
+
+        alertDate.setText(task.getAlertDate());
+
+
+        alertDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                picker.setDateOnView((TextView) v, task,3);
+
+            }
+        });
+
+
+        // Time
+        alertTime = (TextView) convertView.findViewById(R.id.alert_hours);
+        alertTime.setTypeface(latoReg);
+
+            alertTime.setText(task.getAlertTime());
+
+        alertTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                picker.setTimeOnView((TextView) v, task,3);
+            }
+        });
 
         // Category field
 
+
+
         // Description field
 
-        textView.setTypeface(latoReg);
+
+        descriptionBTN = (TextView) convertView.findViewById(R.id.addDescBtn);
+        descriptionBTN.setTypeface(latoReg);
+
+        final TextView focusTaunter = (TextView) convertView.findViewById(R.id.task_description_textView);
+
+        description = (EditText) convertView.findViewById(R.id.content_description_textView);
+        description.setTypeface(latoReg);
+        description.setText(task.getDescription());
+
+      /*  description.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId,
+                                          KeyEvent event) {
+                if (event != null&& (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                    InputMethodManager in = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    in.hideSoftInputFromWindow(v
+                                    .getApplicationWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS);
+
+                    task.setTaskDescription(description.getText().toString());
+                    description.clearFocus();
+                    focusTaunter.requestFocus();
+
+                    return true;
+                }
+                return false;
+            }
+        });*/
+/*
+        description.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ("Add Description...".equals(task.getDescription())){
+                    description.requestFocus();
+                }
+            }
+        });*/
+
+        final InputMethodManager imm= (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        description.setOnEditorActionListener(new TextView.OnEditorActionListener()
+        {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
+            {
+                String input;
+                if(actionId == EditorInfo.IME_ACTION_DONE)
+                {
+                    task.setTaskDescription(description.getText().toString());
+                    imm.hideSoftInputFromWindow(description.getWindowToken(), 0);
+                    description.clearFocus();
+                    return true;
+                }
+
+                if(event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+                {
+                    imm.hideSoftInputFromWindow(description.getWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }
+        });
+        description.setOnFocusChangeListener(new View.OnFocusChangeListener()
+        {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus)
+            {
+
+                if(!hasFocus)
+                {
+                    task.setTaskDescription(description.getText().toString());
+
+
+
+                }
+            }
+        });
+
+
+
+
 
         return convertView;
     }

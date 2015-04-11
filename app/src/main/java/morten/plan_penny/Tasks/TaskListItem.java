@@ -1,5 +1,7 @@
 package morten.plan_penny.Tasks;
 
+import android.text.Editable;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -10,81 +12,36 @@ import morten.plan_penny.Categories.Category;
  */
 public class TaskListItem {
 
-    private String mTitle;
-    private Date startDate;
-    private Date endDate;
-    private Date reminder;
-    private double ttf; // time to finish
+    private String title;
+
+    private String startDate = "Start Date";
+    private String startTime = "00:00";
+
+    private String endDate = "End Date";
+    private String endTime = "00:00";
+
+    private int ttc;
+
+    private String alertDate = "Alert Date";
+    private String alertTime = "00:00";
+
     private ArrayList<Category> categories;
-    private String taskDescription;
+
+    private String taskDescription = "Add Description...";
 
     private int mHeight;
-    boolean checked = false;
+
+    private boolean checked;
 
 
-    public TaskListItem(String title,int collapsedHeight, String description) {
+    public TaskListItem(int collapsedHeight) {
         super();
-        mTitle = title;
         mHeight = collapsedHeight;
-        taskDescription = description;
         categories = new ArrayList<>();
     }
 
-    public Date getStartDate() {
-        return startDate;
-    }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
 
-    public String getTitle() {
-        return mTitle;
-    }
-
-    public void setTitle(String mTitle) {
-        this.mTitle = mTitle;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public double getTtf() {
-        return ttf;
-    }
-
-    public void setTtf(double ttf) {
-        this.ttf = ttf;
-    }
-
-    public Date getReminder() {
-        return reminder;
-    }
-
-    public void setReminder(Date reminder) {
-        this.reminder = reminder;
-    }
-
-    public ArrayList<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(ArrayList<Category> categories) {
-        this.categories = categories;
-    }
-
-    public String getTaskDescription() {
-        return taskDescription;
-    }
-
-    public void setTaskDescription(String taskDescription) {
-        this.taskDescription = taskDescription;
-    }
 
     public int getHeight() {
         return mHeight;
@@ -94,6 +51,23 @@ public class TaskListItem {
         this.mHeight = mHeight;
     }
 
+    public void addCategory(Category cat) {
+        this.categories.add(cat);
+    }
+
+    public ArrayList<Category> getCategories() {
+        return categories;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+
     public boolean isChecked() {
         return checked;
     }
@@ -102,7 +76,68 @@ public class TaskListItem {
         this.checked = checked;
     }
 
-    public void addCategory(Category cat) {
-        this.categories.add(cat);
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+
+    public void setAlertDate(String alertDate) {
+        this.alertDate = alertDate;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setAlertTime(String alertTime) {
+        this.alertTime = alertTime;
+    }
+
+    public String getAlertDate() {
+        return alertDate;
+    }
+
+    public String getAlertTime() {
+        return alertTime;
+    }
+
+    public String getDescription() {
+        return taskDescription;
+    }
+
+    public void setTaskDescription(String taskDescription) {
+        this.taskDescription = taskDescription;
+    }
+
+    public void setTtc(int ttc) {
+        this.ttc = ttc;
+    }
+
+    public int getTtc() {
+        return ttc;
     }
 }
