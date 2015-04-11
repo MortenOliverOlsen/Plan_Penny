@@ -11,45 +11,56 @@
         android:id="@+id/taskMenuBar"
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="65dp"
+        android:layout_height="60dp"
         android:background="@drawable/border"
         >
 
+        <FrameLayout
+            android:layout_width="15dp"
+            android:layout_height="fill_parent"></FrameLayout>
+
         <Button
             android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="15dp"
-            android:id="@+id/project_button"
-            android:button="@null"
-            android:background="@drawable/project_button"/>
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/delete_task_button"
+            android:layout_marginLeft="15dp"
+
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:visibility="visible"
+            android:id="@+id/delete_button" />
 
         <Button
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="15dp"
-            android:id="@+id/calendar_button"
+            android:id="@+id/add_to_project_btn"
             android:button="@null"
-            android:background="@drawable/calendar_button"/>
+            android:background="@drawable/add_to_project_btn"/>
 
         <Button
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="15dp"
-            android:id="@+id/clipBoard_button"
+            android:id="@+id/add_category_btn"
             android:button="@null"
-            android:background="@drawable/clipboard_button"/>
+            android:background="@drawable/add_category_btn"/>
 
         <Button
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="15dp"
-            android:id="@+id/categories_button"
+            android:id="@+id/task_settings_btn"
             android:button="@null"
-            android:background="@drawable/categories_button"/>
+            android:background="@drawable/task_settings"/>
+
+        <FrameLayout
+            android:layout_width="15dp"
+            android:layout_height="fill_parent"></FrameLayout>
     </LinearLayout>
 
 

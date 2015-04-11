@@ -45,16 +45,7 @@
             android:layout_width="55dp"
             android:layout_height="match_parent">
 
-            <Button
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@drawable/delete_task_button"
-                android:layout_margin="15dp"
 
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:visibility="visible"
-                android:id="@+id/delete_button" />
 
             <CheckBox
                 android:layout_width="fill_parent"

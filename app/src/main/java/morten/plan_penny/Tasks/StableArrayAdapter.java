@@ -103,7 +103,13 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
         final TextView descriptionBTN;
         final EditText description;
 
+        Button deleteBTN;
+        Button addToProjectBTN;
+        Button addCategoryBTN;
+        Button taskSettingBTN;
+
         final TimeAndDatePicker picker = new TimeAndDatePicker(context);
+        final MultipleSelectSpinner spinner = new MultipleSelectSpinner(context);
 
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.child_layout, null);
@@ -111,16 +117,70 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
 
 
         // Menu
-        Button deleteBTN = (Button) convertView.findViewById(R.id.delete_button);
+
+        // Delete Button
+        deleteBTN = (Button) convertView.findViewById(R.id.delete_button);
 
         deleteBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeItem(parentPosition);
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+
+                alert.setTitle("Alert");
+                alert.setMessage("Are you sure you want to delete the current task?");
+
+                // Set an EditText view to get user inpu
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        removeItem(parentPosition);
+                        notifyDataSetChanged();
+                    }
+                });
+
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Canceled.
+                    }
+                });
+                alert.show();
+
+            }
+        });
+
+        // Add to project
+        addToProjectBTN = (Button) convertView.findViewById(R.id.add_to_project_btn);
+        addToProjectBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                spinner.selectItemsOnObject(task,task.getProjects(),1);
                 notifyDataSetChanged();
             }
         });
 
+        // Add category
+
+        addCategoryBTN = (Button) convertView.findViewById(R.id.add_category_btn);
+        addCategoryBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                spinner.selectItemsOnObject(task,task.getCategories(),2);
+                notifyDataSetChanged();
+            }
+        });
+
+        // Settings
+
+        taskSettingBTN = (Button) convertView.findViewById(R.id.task_settings_btn);
+        taskSettingBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                spinner.selectItemsOnObject(task,task.getOptions(),3);
+                notifyDataSetChanged();
+            }
+        });
 
 
         // Start field
@@ -257,8 +317,6 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
 
 
         // Description field
-
-
         descriptionBTN = (TextView) convertView.findViewById(R.id.addDescBtn);
         descriptionBTN.setTypeface(latoReg);
 
@@ -267,35 +325,6 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
         description = (EditText) convertView.findViewById(R.id.content_description_textView);
         description.setTypeface(latoReg);
         description.setText(task.getDescription());
-
-      /*  description.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId,
-                                          KeyEvent event) {
-                if (event != null&& (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-                    InputMethodManager in = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    in.hideSoftInputFromWindow(v
-                                    .getApplicationWindowToken(),
-                            InputMethodManager.HIDE_NOT_ALWAYS);
-
-                    task.setTaskDescription(description.getText().toString());
-                    description.clearFocus();
-                    focusTaunter.requestFocus();
-
-                    return true;
-                }
-                return false;
-            }
-        });*/
-/*
-        description.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if ("Add Description...".equals(task.getDescription())){
-                    description.requestFocus();
-                }
-            }
-        });*/
 
         final InputMethodManager imm= (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -330,16 +359,9 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
                 if(!hasFocus)
                 {
                     task.setTaskDescription(description.getText().toString());
-
-
-
                 }
             }
         });
-
-
-
-
 
         return convertView;
     }
@@ -352,7 +374,7 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
 
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.list_view_item_expanded, null);
+            convertView = inflater.inflate(R.layout.parent_layout, null);
         }
 
         CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.checkbox_task);
@@ -363,23 +385,6 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
             }
         });
         checkBox.setChecked(task.isChecked());
-        Button deleteBTN = (Button) convertView.findViewById(R.id.delete_button);
-
-        if (isExpanded){
-              checkBox.setVisibility(View.INVISIBLE);
-              deleteBTN.setVisibility(View.VISIBLE);
-            deleteBTN.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    removeItem(parentPosition);
-                    notifyDataSetChanged();
-                }
-            });
-        }else {
-              deleteBTN.setVisibility(View.GONE);
-              checkBox.setVisibility(View.VISIBLE);
-
-        }
 
         convertView.setLayoutParams(new ListView.LayoutParams(ListView.LayoutParams
                 .MATCH_PARENT, task.getHeight()));
@@ -465,7 +470,7 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
-          //  convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_view_item_expanded, parent, false);
+          //  convertView = LayoutInflater.from(getContext()).inflate(R.layout.parent_layout, parent, false);
         }
 
         // Lookup view for data population

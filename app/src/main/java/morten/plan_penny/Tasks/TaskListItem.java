@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import morten.plan_penny.Categories.Category;
+import morten.plan_penny.Projects.Project;
 
 /**
  * Created by morten on 3/18/15.
@@ -26,12 +27,15 @@ public class TaskListItem {
     private String alertTime = "00:00";
 
     private ArrayList<Category> categories;
+    private ArrayList<Project> projects;
+    private ArrayList<Boolean> options;
 
     private String taskDescription = "Add Description...";
 
     private int mHeight;
 
     private boolean checked;
+
 
 
     public TaskListItem(int collapsedHeight) {
@@ -53,6 +57,10 @@ public class TaskListItem {
 
     public void addCategory(Category cat) {
         this.categories.add(cat);
+    }
+
+    public void removeCategory(Category category) {
+        categories.remove(category);
     }
 
     public ArrayList<Category> getCategories() {
@@ -139,5 +147,26 @@ public class TaskListItem {
 
     public int getTtc() {
         return ttc;
+    }
+
+    public void addProject(Object o) {
+        projects.add((Project) o);
+    }
+
+    public void removeProject(Object o) {
+        projects.remove((Project) o);
+    }
+
+
+    public void setOptions(int i, boolean b) {
+        options.set(i,b);
+    }
+
+    public ArrayList<Project> getProjects() {
+        return projects;
+    }
+
+    public ArrayList<Boolean> getOptions() {
+        return options;
     }
 }
