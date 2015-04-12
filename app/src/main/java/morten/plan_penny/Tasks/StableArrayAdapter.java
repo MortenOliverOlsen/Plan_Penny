@@ -34,9 +34,11 @@ import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -61,7 +63,8 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
         listItems = objects;
         setInflater(inflater,context);
         latoReg = Typeface.createFromAsset(context.getAssets(), "lato_regular.ttf");
-    }
+
+       }
 
     public void setInflater(LayoutInflater inflater, Context context) {
         this.inflater = inflater;
@@ -88,9 +91,16 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
 
 
     @Override
-    public View getChildView(final int parentPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(final int parentPosition, final int childPosition, boolean isLastChild, View convertView, final ViewGroup parent) {
 
         final TaskListItem task = listItems.get(parentPosition);
+
+        final LinearLayout startDateView;
+        final LinearLayout endDateView;
+        final LinearLayout ttcView;
+        final LinearLayout alertView;
+        final LinearLayout descriptionView;
+
 
         Typeface latoReg = Typeface.createFromAsset(context.getAssets(), "lato_regular.ttf");
         TextView startDate;
@@ -115,6 +125,12 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
             convertView = inflater.inflate(R.layout.child_layout, null);
         }
 
+        startDateView = (LinearLayout) convertView.findViewById(R.id.start_date);
+        endDateView = (LinearLayout) convertView.findViewById(R.id.end_date);
+        ttcView = (LinearLayout) convertView.findViewById(R.id.ttc_layout);
+        alertView = (LinearLayout) convertView.findViewById(R.id.reminder);
+        descriptionView = (LinearLayout) convertView.findViewById(R.id.description);
+
 
         // Menu
 
@@ -130,7 +146,6 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
                 alert.setTitle("Alert");
                 alert.setMessage("Are you sure you want to delete the current task?");
 
-                // Set an EditText view to get user inpu
                 alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
                     @Override
@@ -152,10 +167,11 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
 
         // Add to project
         addToProjectBTN = (Button) convertView.findViewById(R.id.add_to_project_btn);
+        final View finalConvertView1 = convertView;
         addToProjectBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                spinner.selectItemsOnObject(task,task.getProjects(),1);
+                spinner.selectItemsOnObject(task,task.getProjects(),1, finalConvertView1);
                 notifyDataSetChanged();
             }
         });
@@ -163,10 +179,12 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
         // Add category
 
         addCategoryBTN = (Button) convertView.findViewById(R.id.add_category_btn);
+        final View finalConvertView = convertView;
+        final View finalConvertView2 = convertView;
         addCategoryBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                spinner.selectItemsOnObject(task,task.getCategories(),2);
+                spinner.selectItemsOnObject(task,task.getCategories(),2, finalConvertView2);
                 notifyDataSetChanged();
             }
         });
@@ -174,13 +192,45 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
         // Settings
 
         taskSettingBTN = (Button) convertView.findViewById(R.id.task_settings_btn);
+        final View finalConvertView3 = convertView;
         taskSettingBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                spinner.selectItemsOnObject(task,task.getOptions(),3);
+                spinner.selectItemsOnObject(task,task.getOptions(),3, finalConvertView3);
                 notifyDataSetChanged();
             }
         });
+
+
+        if (task.getOptions().get(0) == true){
+            startDateView.setVisibility(View.VISIBLE);
+        } else {
+            startDateView.setVisibility(View.GONE);
+        }
+
+        if (task.getOptions().get(1) == true){
+            endDateView.setVisibility(View.VISIBLE);
+        } else {
+            endDateView.setVisibility(View.GONE);
+        }
+
+        if (task.getOptions().get(2) == true){
+            ttcView.setVisibility(View.VISIBLE);
+        } else {
+            ttcView.setVisibility(View.GONE);
+        }
+
+        if (task.getOptions().get(3) == true){
+            alertView.setVisibility(View.VISIBLE);
+        } else {
+            alertView.setVisibility(View.GONE);
+        }
+
+        if (task.getOptions().get(4) == true){
+            descriptionView.setVisibility(View.VISIBLE);
+        } else {
+            descriptionView.setVisibility(View.GONE);
+        }
 
 
         // Start field
@@ -396,6 +446,13 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
 
 
         // Set categories
+        updateCategoryViews(convertView,task);
+
+
+        return convertView;
+    }
+
+    void updateCategoryViews(View convertView, TaskListItem task){
         for (int i = 0; i < 5; i++){
             Category c = null;
             if (i < task.getCategories().size()){
@@ -459,9 +516,6 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
 
         }
 
-
-
-        return convertView;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {

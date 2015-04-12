@@ -41,7 +41,14 @@ public class TaskListItem {
     public TaskListItem(int collapsedHeight) {
         super();
         mHeight = collapsedHeight;
+        projects = new ArrayList<>();
         categories = new ArrayList<>();
+        options = new ArrayList<>();
+        for (int i = 0; i < 5; i++){
+            options.add(i,false);
+        }
+
+
     }
 
 

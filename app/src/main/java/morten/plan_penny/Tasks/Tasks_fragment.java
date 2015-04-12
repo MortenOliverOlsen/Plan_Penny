@@ -76,17 +76,12 @@ public class Tasks_fragment extends Fragment implements View.OnClickListener{
         taskCounter++;
         String description = "This is string " + taskCounter + " and it has not yet received a description";
 
-        Category c1 = new Category("Morgen","#4c4cff"); // Blå
-        Category c2 = new Category("Formiddag","#FFA500"); // Gul
-        Category c3 = new Category("Eftermiddag","#CC0000"); // Rød
-        Category c4 = new Category("Aften","#3DA428"); // Grøn
-
-
 
         final TaskListItem newObj = new TaskListItem(mCellHeight);
         newObj.setTitle("New task " + taskCounter);
-        newObj.addCategory(c1);
-        newObj.addCategory(c2);
+
+
+
 
 
         listView.setEnabled(false);
