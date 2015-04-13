@@ -185,6 +185,7 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
             @Override
             public void onClick(View v) {
                 spinner.selectItemsOnObject(task,task.getCategories(),2, finalConvertView2);
+                updateCategoryViews(parent.getChildAt(parentPosition),task);
                 notifyDataSetChanged();
             }
         });
@@ -198,6 +199,7 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
             public void onClick(View v) {
                 spinner.selectItemsOnObject(task,task.getOptions(),3, finalConvertView3);
                 notifyDataSetChanged();
+
             }
         });
 
@@ -362,15 +364,9 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
             }
         });
 
-        // Category field
-
-
-
         // Description field
         descriptionBTN = (TextView) convertView.findViewById(R.id.addDescBtn);
         descriptionBTN.setTypeface(latoReg);
-
-        final TextView focusTaunter = (TextView) convertView.findViewById(R.id.task_description_textView);
 
         description = (EditText) convertView.findViewById(R.id.content_description_textView);
         description.setTypeface(latoReg);
@@ -432,6 +428,9 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
             @Override
             public void onClick(View v) {
                 task.setChecked(!task.isChecked());
+
+                removeItem(parentPosition);
+                addItem(task);
             }
         });
         checkBox.setChecked(task.isChecked());
@@ -588,6 +587,13 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
         TaskListItem removedItem = listItems.get(position);
         mIdMap.remove(removedItem);
         listItems.remove(position);
+        notifyDataSetChanged();
+    }
+
+    public void addItem(TaskListItem task){
+
+        listItems.add(listItems.size(),task);
+        addStableIdForDataAtPosition(listItems.size()-1);
         notifyDataSetChanged();
     }
 
