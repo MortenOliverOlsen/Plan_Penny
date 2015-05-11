@@ -43,19 +43,18 @@ public class CategoryArrayAdapter extends BaseExpandableListAdapter{
 
     final int INVALID_ID = -1;
 
-    HashMap<Project, Integer> mIdMap = new HashMap<Project, Integer>();
+    HashMap<Category, Integer> mIdMap = new HashMap<Category, Integer>();
 
 
-    private List<Project> listItems;
+    private List<Category> listItems;
 
-    ArrayList<TaskListItem> tasklistItems;
     int mCounter;
     private Context context;
     private LayoutInflater inflater;
 
     Typeface latoReg;
 
-    public CategoryArrayAdapter(List<Project> objects, Context context, LayoutInflater inflater) {
+    public CategoryArrayAdapter(List<Category> objects, Context context, LayoutInflater inflater) {
         listItems = objects;
         setInflater(inflater,context);
         latoReg = Typeface.createFromAsset(context.getAssets(), "lato_regular.ttf");
@@ -72,14 +71,14 @@ public class CategoryArrayAdapter extends BaseExpandableListAdapter{
         if (position < 0 || position >= mIdMap.size()) {
             return INVALID_ID;
         }
-        Project item = listItems.get(position);
+        Category item = listItems.get(position);
         return mIdMap.get(item);
     }
 
     public void printArray(){
         String array = null;
         for (int i = 0; i < listItems.size(); i++){
-            Project item = listItems.get(i);
+            Category item = listItems.get(i);
             array += item.getTitle()+", ";
         }
         System.out.println("array = " + array);
@@ -89,58 +88,11 @@ public class CategoryArrayAdapter extends BaseExpandableListAdapter{
     @Override
     public View getChildView(final int parentPosition, final int childPosition, boolean isLastChild, View convertView, final ViewGroup parent) {
 
-        final Project project = listItems.get(parentPosition);
+        final Category project = listItems.get(parentPosition);
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.project_child, null);
+            // Lav child view layout her
         }
-
-        // initialize and create task list here
-        DynamicListView listView;
-        StableArrayAdapter listAdapter;
-
-
-        tasklistItems = new ArrayList<>();
-
-
-        listAdapter = new StableArrayAdapter(tasklistItems, context, (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
-
-        listView = (DynamicListView) convertView.findViewById(R.id.list);
-
-        listView.setGroupIndicator(null);
-        listView.setTaskList(tasklistItems);
-        listView.setAdapter(listAdapter);
-        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-
-        TaskListItem newObj = new TaskListItem(80);
-        newObj.setTitle("Task1");
-        listView.addRow(newObj);
-        TaskListItem newObj2 = new TaskListItem(80);
-        newObj2.setTitle("Task2");
-        listView.addRow(newObj2);
-        TaskListItem newObj3 = new TaskListItem(80);
-        newObj.setTitle("Task3");
-        listView.addRow(newObj3);
-        TaskListItem newObj4 = new TaskListItem(80);
-        newObj2.setTitle("Task4");
-        listView.addRow(newObj4);
-        TaskListItem newObj5 = new TaskListItem(80);
-        newObj.setTitle("Task5");
-        listView.addRow(newObj5);
-        TaskListItem newObj6 = new TaskListItem(80);
-        newObj2.setTitle("Task6");
-        listView.addRow(newObj6);
-
-        listView.setOnTouchListener(new DynamicListView.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                v.getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });
-
-
-
 
         return convertView;
     }
@@ -149,11 +101,11 @@ public class CategoryArrayAdapter extends BaseExpandableListAdapter{
     @Override
     public View getGroupView(final int parentPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
-        final Project project = listItems.get(parentPosition);
+        final Category project = listItems.get(parentPosition);
 
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.parent_layout_project, null);
+            convertView = inflater.inflate(R.layout.parent_layout_category, null);
         }
 
         convertView.setLayoutParams(new ListView.LayoutParams(ListView.LayoutParams
@@ -165,154 +117,12 @@ public class CategoryArrayAdapter extends BaseExpandableListAdapter{
         tw.setChecked(isExpanded);
 
 
-        // Set categories
-        updateCategoryViews(convertView,project);
-
-
         return convertView;
     }
-
-    void updateCategoryViews(View convertView, Project project){
-        for (int i = 0; i < 10; i++){
-            Category c = null;
-            if (i < project.getCategories().size()){
-                c = project.getCategories().get(i);
-            }
-
-            switch (i){
-                case 0:
-                    FrameLayout cat1 = (FrameLayout) convertView.findViewById(R.id.cat1);
-                    if (c != null){
-                        cat1.setVisibility(View.VISIBLE);
-                        int color = Color.parseColor(c.getColor());
-                        cat1.setBackgroundColor(color);
-                    } else {
-                        cat1.setVisibility(View.GONE);
-                    }
-
-                    break;
-                case 1:
-                    FrameLayout cat2 = (FrameLayout) convertView.findViewById(R.id.cat2);
-                    if (c != null){
-                        cat2.setVisibility(View.VISIBLE);
-                        int color = Color.parseColor(c.getColor());
-                        cat2.setBackgroundColor(color);
-                    } else {
-                        cat2.setVisibility(View.GONE);
-                    }
-                    break;
-                case 2:
-                    FrameLayout cat3 = (FrameLayout) convertView.findViewById(R.id.cat3);
-                    if (c != null){
-                        cat3.setVisibility(View.VISIBLE);
-                        int color = Color.parseColor(c.getColor());
-                        cat3.setBackgroundColor(color);
-                    } else {
-                        cat3.setVisibility(View.GONE);
-                    }
-                    break;
-                case 3:
-                    FrameLayout cat4 = (FrameLayout) convertView.findViewById(R.id.cat4);
-                    if (c != null){
-                        cat4.setVisibility(View.VISIBLE);
-                        int color = Color.parseColor(c.getColor());
-                        cat4.setBackgroundColor(color);
-                    } else {
-                        cat4.setVisibility(View.GONE);
-                    }
-                    break;
-                case 4:
-                    FrameLayout cat5 = (FrameLayout) convertView.findViewById(R.id.cat5);
-                    if (c != null){
-                        cat5.setVisibility(View.VISIBLE);
-                        int color = Color.parseColor(c.getColor());
-                        cat5.setBackgroundColor(color);
-                    } else {
-                        cat5.setVisibility(View.GONE);
-                    }
-                    break;
-                case 5:
-                    FrameLayout cat6 = (FrameLayout) convertView.findViewById(R.id.cat6);
-                    if (c != null){
-                        cat6.setVisibility(View.VISIBLE);
-                        int color = Color.parseColor(c.getColor());
-                        cat6.setBackgroundColor(color);
-                    } else {
-                        cat6.setVisibility(View.GONE);
-                    }
-                    break;
-                case 6:
-                    FrameLayout cat7 = (FrameLayout) convertView.findViewById(R.id.cat7);
-                    if (c != null){
-                        cat7.setVisibility(View.VISIBLE);
-                        int color = Color.parseColor(c.getColor());
-                        cat7.setBackgroundColor(color);
-                    } else {
-                        cat7.setVisibility(View.GONE);
-                    }
-                    break;
-                case 7:
-                    FrameLayout cat8 = (FrameLayout) convertView.findViewById(R.id.cat8);
-                    if (c != null){
-                        cat8.setVisibility(View.VISIBLE);
-                        int color = Color.parseColor(c.getColor());
-                        cat8.setBackgroundColor(color);
-                    } else {
-                        cat8.setVisibility(View.GONE);
-                    }
-                    break;
-                case 8:
-                    FrameLayout cat9 = (FrameLayout) convertView.findViewById(R.id.cat9);
-                    if (c != null){
-                        cat9.setVisibility(View.VISIBLE);
-                        int color = Color.parseColor(c.getColor());
-                        cat9.setBackgroundColor(color);
-                    } else {
-                        cat9.setVisibility(View.GONE);
-                    }
-                    break;
-                case 9:
-                    FrameLayout cat10 = (FrameLayout) convertView.findViewById(R.id.cat10);
-                    if (c != null){
-                        cat10.setVisibility(View.VISIBLE);
-                        int color = Color.parseColor(c.getColor());
-                        cat10.setBackgroundColor(color);
-                    } else {
-                        cat10.setVisibility(View.GONE);
-                    }
-                    break;
-            }
-
-
-        }
-
-    }
-
-    public View getView(int position, View convertView, ViewGroup parent) {
-        // Get the data item for this position
-        final Project task = listItems.get(position);
-
-        // Check if an existing view is being reused, otherwise inflate the view
-        if (convertView == null) {
-          //  convertView = LayoutInflater.from(getContext()).inflate(R.layout.parent_layout, parent, false);
-        }
-
-        // Lookup view for data population
-        TextView tvName = (TextView) convertView.findViewById(R.id.title_view);
-
-        convertView.setLayoutParams(new ListView.LayoutParams(ListView.LayoutParams
-                .MATCH_PARENT, task.getHeight()));
-        // Populate the data into the template view using the data object
-        tvName.setText(task.getTitle());
-        return convertView;
-    }
-
 
     public void addStableIdForDataAtPosition(int position) {
         mIdMap.put(listItems.get(position), ++mCounter);
     }
-
-
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
@@ -355,14 +165,13 @@ public class CategoryArrayAdapter extends BaseExpandableListAdapter{
     }
 
     public void removeItem(int position){
-        Project removedItem = listItems.get(position);
+        Category removedItem = listItems.get(position);
         mIdMap.remove(removedItem);
         listItems.remove(position);
         notifyDataSetChanged();
     }
 
-    public void addItem(Project task){
-
+    public void addItem(Category task){
         listItems.add(listItems.size(),task);
         addStableIdForDataAtPosition(listItems.size()-1);
         notifyDataSetChanged();

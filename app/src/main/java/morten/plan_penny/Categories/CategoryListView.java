@@ -67,13 +67,13 @@ import morten.plan_penny.R;
  * When the hover cell is either above or below the bounds of the listview, this
  * listview also scrolls on its own so as to reveal additional content.
  */
-public class ProjectListView extends ExpandableListView {
+public class CategoryListView extends ExpandableListView {
 
     private final int SMOOTH_SCROLL_AMOUNT_AT_EDGE = 15;
     private final int MOVE_DURATION = 150;
     private final int LINE_THICKNESS = 15;
 
-    public ArrayList<Project> projectList;
+    public ArrayList<Category> categoryList;
 
     private int mLastEventY = -1;
     private int mDownY = -1;
@@ -106,17 +106,17 @@ public class ProjectListView extends ExpandableListView {
     private int[] mTranslate;
 
 
-    public ProjectListView(Context context) {
+    public CategoryListView(Context context) {
         super(context);
         init(context);
     }
 
-    public ProjectListView(Context context, AttributeSet attrs, int defStyle) {
+    public CategoryListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context);
     }
 
-    public ProjectListView(Context context, AttributeSet attrs) {
+    public CategoryListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
@@ -158,7 +158,7 @@ public class ProjectListView extends ExpandableListView {
 
                     updateNeighborViewsForID(mMobileItemId);
 
-                    ProjectArrayAdapter adabpt = (ProjectArrayAdapter) getExpandableListAdapter();
+                    CategoryArrayAdapter adabpt = (CategoryArrayAdapter) getExpandableListAdapter();
                     adabpt.printArray();
                     return true;
                 }
@@ -222,7 +222,7 @@ public class ProjectListView extends ExpandableListView {
      */
     private void updateNeighborViewsForID(long itemID) {
         int position = getPositionForID(itemID);
-        ProjectArrayAdapter adapter = ((ProjectArrayAdapter) getExpandableListAdapter());
+        CategoryArrayAdapter adapter = ((CategoryArrayAdapter) getExpandableListAdapter());
         mAboveItemId = adapter.getItemId(position - 1);
         mBelowItemId = adapter.getItemId(position + 1);
     }
@@ -231,7 +231,7 @@ public class ProjectListView extends ExpandableListView {
     public View getViewForID (long itemID) {
         System.out.println("itemID = " + itemID);
        int firstVisiblePosition = getFirstVisiblePosition();
-        ProjectArrayAdapter adapter = ((ProjectArrayAdapter) getExpandableListAdapter());
+        CategoryArrayAdapter adapter = ((CategoryArrayAdapter) getExpandableListAdapter());
         for(int i = 0; i < adapter.getGroupCount(); i++) {
             View v = getChildAt(i);
             int position = firstVisiblePosition + i;
@@ -365,9 +365,9 @@ public class ProjectListView extends ExpandableListView {
                 return;
             }
 
-            swapElements(projectList, originalItem, getPositionForView(switchView));
+            swapElements(categoryList, originalItem, getPositionForView(switchView));
 
-            ((ProjectArrayAdapter) getExpandableListAdapter()).notifyDataSetChanged();
+            ((CategoryArrayAdapter) getExpandableListAdapter()).notifyDataSetChanged();
 
             mDownY = mLastEventY;
 
@@ -534,8 +534,8 @@ public class ProjectListView extends ExpandableListView {
         return false;
     }
 
-    public void setProjectList(ArrayList<Project> taskListData) {
-        projectList = taskListData;
+    public void setCategoryList(ArrayList<Category> taskListData) {
+        categoryList = taskListData;
     }
 
     /**
@@ -624,9 +624,9 @@ public class ProjectListView extends ExpandableListView {
         }
     };
 
-    public void addRow(Project newObj){
-    final ProjectArrayAdapter adapter = (ProjectArrayAdapter) getExpandableListAdapter();
-    projectList.add(0, newObj);
+    public void addRow(Category newObj){
+    final CategoryArrayAdapter adapter = (CategoryArrayAdapter) getExpandableListAdapter();
+    categoryList.add(0, newObj);
     adapter.addStableIdForDataAtPosition(0);
     adapter.notifyDataSetChanged();
 
@@ -645,14 +645,14 @@ public class ProjectListView extends ExpandableListView {
 
     }
 
-    public void removeRow(Project newObj){
-        final ProjectArrayAdapter adapter = (ProjectArrayAdapter) getExpandableListAdapter();
-        projectList.add(0, newObj);
+    public void removeRow(Category newObj){
+        final CategoryArrayAdapter adapter = (CategoryArrayAdapter) getExpandableListAdapter();
+        categoryList.add(0, newObj);
         adapter.addStableIdForDataAtPosition(0);
         adapter.notifyDataSetChanged();
     }
 
-    public void typeProjectName(Project newObj) {
+    public void typeCategoryName(Category newObj) {
 
         View selectedView = getViewForID(1);
 

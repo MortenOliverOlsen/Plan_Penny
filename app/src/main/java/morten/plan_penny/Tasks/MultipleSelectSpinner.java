@@ -175,7 +175,7 @@ public class MultipleSelectSpinner {
             Category c = categoryList.get(i);
             boolean contains =false;
             for (int j = 0; j < itemList.size();j++){
-                if (categoryList.get(i).getName().equals(itemList.get(j).getName())){
+                if (categoryList.get(i).getTitle().equals(itemList.get(j).getTitle())){
                     contains = true;
                 }
             }
@@ -211,7 +211,7 @@ public class MultipleSelectSpinner {
 
         for (int i = 0; i < categoryList.size(); i++){
             Category c = categoryList.get(i);
-            titles.add(c.getName());
+            titles.add(c.getTitle());
         }
         categoryTitleList = titles.toArray(new CharSequence[titles.size()]);
     }
