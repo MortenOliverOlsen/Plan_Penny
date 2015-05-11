@@ -3,6 +3,7 @@ package morten.plan_penny.Tasks;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -47,13 +48,17 @@ public class MultipleSelectSpinner {
         this.context = context;
 
         // Initialize test data
-        c1 = new Category("Morgen","#4c4cff");
+        int color = Color.parseColor("#4c4cff");
+        c1 = new Category("Morgen",color);
         categoryList.add(c1);
-        c2 = new Category("Formiddag","#FFA500");
+        int color2 = Color.parseColor("#FFA500");
+        c2 = new Category("Formiddag",color2);
         categoryList.add(c2);
-        c3 = new Category("Eftermiddag","#CC0000");
+        int color3 = Color.parseColor("#CC0000");
+        c3 = new Category("Eftermiddag",color3);
         categoryList.add(c3);
-        c4 = new Category("Aften","#3DA428");
+        int color4 = Color.parseColor("#3DA428");
+        c4 = new Category("Aften",color4);
         categoryList.add(c4);
     }
 

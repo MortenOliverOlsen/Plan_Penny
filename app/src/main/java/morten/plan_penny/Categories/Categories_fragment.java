@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.InputType;
@@ -17,11 +18,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import morten.plan_penny.Projects.Project;
-import morten.plan_penny.Projects.ProjectArrayAdapter;
-import morten.plan_penny.Projects.ProjectListView;
 import morten.plan_penny.R;
-import morten.plan_penny.Tasks.TaskListItem;
+import yuku.ambilwarna.AmbilWarnaDialog;
+
 
 /**
  * Created by morten on 3/17/15.
@@ -68,7 +67,7 @@ public class Categories_fragment extends Fragment implements View.OnClickListene
         return categoryFrag;
     }
 
-    public void addRow(String title, String color) {
+    public void addRow(String title, int color) {
 
         taskCounter++;
         String description = "This is string " + taskCounter + " and it has not yet received a description";
@@ -112,10 +111,28 @@ public class Categories_fragment extends Fragment implements View.OnClickListene
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String title = input.getText().toString();
+                        final String title = input.getText().toString();
                         // FARVE
-                        String color = null;
-                        addRow(title,color);
+                        int color = Color.parseColor("#4c4cff");
+                        AmbilWarnaDialog colorDialog = new AmbilWarnaDialog(getActivity(),color, new AmbilWarnaDialog.OnAmbilWarnaListener() {
+                            @Override
+                            public void onOk(AmbilWarnaDialog dialog, int color) {
+                                addRow(title,color);
+                            }
+
+                            @Override
+                            public void onCancel(AmbilWarnaDialog dialog) {
+                                // cancel was selected by the user
+                            }
+
+
+                          });
+                        colorDialog.show();
+
+
+
+
+
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

@@ -109,8 +109,7 @@ public class CategoryArrayAdapter extends BaseExpandableListAdapter{
         tw.setTypeface(latoReg);
         tw.setChecked(isExpanded);
         LinearLayout background = (LinearLayout) convertView.findViewById(R.id.background);
-        int color = Color.parseColor(category.getColor());
-        background.setBackgroundColor(color);
+        background.setBackgroundColor(category.getColor());
 
 
         return convertView;

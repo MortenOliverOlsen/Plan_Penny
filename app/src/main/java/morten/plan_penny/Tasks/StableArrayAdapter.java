@@ -463,8 +463,7 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
                     FrameLayout cat1 = (FrameLayout) convertView.findViewById(R.id.cat1);
                     if (c != null){
                         cat1.setVisibility(View.VISIBLE);
-                        int color = Color.parseColor(c.getColor());
-                        cat1.setBackgroundColor(color);
+                        cat1.setBackgroundColor(c.getColor());
                     } else {
                         cat1.setVisibility(View.GONE);
                     }
@@ -474,8 +473,7 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
                     FrameLayout cat2 = (FrameLayout) convertView.findViewById(R.id.cat2);
                     if (c != null){
                         cat2.setVisibility(View.VISIBLE);
-                        int color = Color.parseColor(c.getColor());
-                        cat2.setBackgroundColor(color);
+                        cat2.setBackgroundColor(c.getColor());
                     } else {
                         cat2.setVisibility(View.GONE);
                     }
@@ -484,8 +482,7 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
                     FrameLayout cat3 = (FrameLayout) convertView.findViewById(R.id.cat3);
                     if (c != null){
                         cat3.setVisibility(View.VISIBLE);
-                        int color = Color.parseColor(c.getColor());
-                        cat3.setBackgroundColor(color);
+                        cat3.setBackgroundColor(c.getColor());
                     } else {
                         cat3.setVisibility(View.GONE);
                     }
@@ -494,8 +491,7 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
                     FrameLayout cat4 = (FrameLayout) convertView.findViewById(R.id.cat4);
                     if (c != null){
                         cat4.setVisibility(View.VISIBLE);
-                        int color = Color.parseColor(c.getColor());
-                        cat4.setBackgroundColor(color);
+                        cat4.setBackgroundColor(c.getColor());
                     } else {
                         cat4.setVisibility(View.GONE);
                     }
@@ -504,8 +500,7 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
                     FrameLayout cat5 = (FrameLayout) convertView.findViewById(R.id.cat5);
                     if (c != null){
                         cat5.setVisibility(View.VISIBLE);
-                        int color = Color.parseColor(c.getColor());
-                        cat5.setBackgroundColor(color);
+                        cat5.setBackgroundColor(c.getColor());
                     } else {
                         cat5.setVisibility(View.GONE);
                     }
