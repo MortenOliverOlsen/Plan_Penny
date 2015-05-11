@@ -20,24 +20,17 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import morten.plan_penny.Projects.Project;
 import morten.plan_penny.R;
-import morten.plan_penny.Tasks.DynamicListView;
-import morten.plan_penny.Tasks.StableArrayAdapter;
-import morten.plan_penny.Tasks.TaskListItem;
 
 public class CategoryArrayAdapter extends BaseExpandableListAdapter{
 
@@ -101,7 +94,7 @@ public class CategoryArrayAdapter extends BaseExpandableListAdapter{
     @Override
     public View getGroupView(final int parentPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
-        final Category project = listItems.get(parentPosition);
+        final Category category = listItems.get(parentPosition);
 
 
         if (convertView == null) {
@@ -109,12 +102,15 @@ public class CategoryArrayAdapter extends BaseExpandableListAdapter{
         }
 
         convertView.setLayoutParams(new ListView.LayoutParams(ListView.LayoutParams
-                .MATCH_PARENT, project.getHeight()));
+                .MATCH_PARENT, category.getHeight()));
 
         CheckedTextView tw = (CheckedTextView) convertView.findViewById(R.id.title_view);
-        tw.setText(project.getTitle());
+        tw.setText(category.getTitle());
         tw.setTypeface(latoReg);
         tw.setChecked(isExpanded);
+        LinearLayout background = (LinearLayout) convertView.findViewById(R.id.background);
+        int color = Color.parseColor(category.getColor());
+        background.setBackgroundColor(color);
 
 
         return convertView;
