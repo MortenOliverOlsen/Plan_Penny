@@ -102,7 +102,7 @@ public class Tasks_fragment extends Fragment implements View.OnClickListener{
             String defaultTitle = "New task " + taskCounter;
             if (v == addButton){
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Title");
+                builder.setTitle("Name for new project");
 
                 final EditText input = new EditText(getActivity());
                 input.setOnClickListener(new View.OnClickListener() {
@@ -140,7 +140,6 @@ public class Tasks_fragment extends Fragment implements View.OnClickListener{
 
 
         }
-
 
         }
     }

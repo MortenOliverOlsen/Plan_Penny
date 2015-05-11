@@ -23,6 +23,23 @@
             android:textColor="@android:color/white"
             android:layout_marginLeft="3dp"
             android:layout_marginTop="-3dp" />
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/ganttButton"
+            android:background="@drawable/gantt_btn"
+            android:layout_margin="5dp"
+            android:layout_gravity="left|bottom" />
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/addButton"
+            android:background="@drawable/add_task_button"
+            android:layout_margin="5dp"
+            android:layout_gravity="right|bottom" />
+
     </FrameLayout>
 
     <FrameLayout
@@ -31,6 +48,13 @@
         android:layout_width="fill_parent"
         android:layout_below="@+id/header_slot"
         android:background="@drawable/transparent_background">
+
+        <morten.plan_penny.Projects.ProjectListView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scrollbars="none"
+            android:overScrollMode="never"
+            android:id="@+id/list"/>
 
     </FrameLayout>
 </morten.plan_penny.Main.FragmentLayout>

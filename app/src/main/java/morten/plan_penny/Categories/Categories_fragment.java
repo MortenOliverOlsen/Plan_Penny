@@ -6,8 +6,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
+import morten.plan_penny.Projects.Project;
+import morten.plan_penny.Projects.ProjectArrayAdapter;
+import morten.plan_penny.Projects.ProjectListView;
 import morten.plan_penny.R;
 
 /**
@@ -16,6 +22,17 @@ import morten.plan_penny.R;
 public class Categories_fragment extends Fragment{
     private View taskFrag;
     private TextView header;
+
+    private Button addButton;
+
+    private ProjectListView listView;
+
+    private ProjectArrayAdapter listAdapter;
+
+    private ArrayList<Category> listItems;
+
+    int taskCounter = 1;
+    int mCellHeight = 80;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

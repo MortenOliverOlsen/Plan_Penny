@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@null"
+    >
+
+    <FrameLayout
+        android:id="@+id/content_frag"
+        android:layout_height="330dp"
+        android:layout_width="fill_parent"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp">
+
+        <morten.plan_penny.Tasks.DynamicListView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scrollbars="none"
+            android:overScrollMode="never"
+            android:id="@+id/list"/>
+
+    </FrameLayout>
+
+</LinearLayout>

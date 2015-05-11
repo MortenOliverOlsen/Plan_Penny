@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-package morten.plan_penny.Tasks;
+package morten.plan_penny.Projects;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -37,14 +35,11 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import morten.plan_penny.R;
@@ -70,13 +65,13 @@ import morten.plan_penny.R;
  * When the hover cell is either above or below the bounds of the listview, this
  * listview also scrolls on its own so as to reveal additional content.
  */
-public class DynamicListView extends ExpandableListView {
+public class ProjectListView extends ExpandableListView {
 
     private final int SMOOTH_SCROLL_AMOUNT_AT_EDGE = 15;
     private final int MOVE_DURATION = 150;
     private final int LINE_THICKNESS = 15;
 
-    public ArrayList<TaskListItem> taskList;
+    public ArrayList<Project> projectList;
 
     private int mLastEventY = -1;
     private int mDownY = -1;
@@ -109,17 +104,17 @@ public class DynamicListView extends ExpandableListView {
     private int[] mTranslate;
 
 
-    public DynamicListView(Context context) {
+    public ProjectListView(Context context) {
         super(context);
         init(context);
     }
 
-    public DynamicListView(Context context, AttributeSet attrs, int defStyle) {
+    public ProjectListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context);
     }
 
-    public DynamicListView(Context context, AttributeSet attrs) {
+    public ProjectListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
@@ -161,7 +156,7 @@ public class DynamicListView extends ExpandableListView {
 
                     updateNeighborViewsForID(mMobileItemId);
 
-                    StableArrayAdapter adabpt = (StableArrayAdapter) getExpandableListAdapter();
+                    ProjectArrayAdapter adabpt = (ProjectArrayAdapter) getExpandableListAdapter();
                     adabpt.printArray();
                     return true;
                 }
@@ -225,7 +220,7 @@ public class DynamicListView extends ExpandableListView {
      */
     private void updateNeighborViewsForID(long itemID) {
         int position = getPositionForID(itemID);
-        StableArrayAdapter adapter = ((StableArrayAdapter) getExpandableListAdapter());
+        ProjectArrayAdapter adapter = ((ProjectArrayAdapter) getExpandableListAdapter());
         mAboveItemId = adapter.getItemId(position - 1);
         mBelowItemId = adapter.getItemId(position + 1);
     }
@@ -234,7 +229,7 @@ public class DynamicListView extends ExpandableListView {
     public View getViewForID (long itemID) {
         System.out.println("itemID = " + itemID);
        int firstVisiblePosition = getFirstVisiblePosition();
-        StableArrayAdapter adapter = ((StableArrayAdapter) getExpandableListAdapter());
+        ProjectArrayAdapter adapter = ((ProjectArrayAdapter) getExpandableListAdapter());
         for(int i = 0; i < adapter.getGroupCount(); i++) {
             View v = getChildAt(i);
             int position = firstVisiblePosition + i;
@@ -368,9 +363,9 @@ public class DynamicListView extends ExpandableListView {
                 return;
             }
 
-            swapElements(taskList, originalItem, getPositionForView(switchView));
+            swapElements(projectList, originalItem, getPositionForView(switchView));
 
-            ((StableArrayAdapter) getExpandableListAdapter()).notifyDataSetChanged();
+            ((ProjectArrayAdapter) getExpandableListAdapter()).notifyDataSetChanged();
 
             mDownY = mLastEventY;
 
@@ -537,8 +532,8 @@ public class DynamicListView extends ExpandableListView {
         return false;
     }
 
-    public void setTaskList(ArrayList<TaskListItem> taskListData) {
-        taskList = taskListData;
+    public void setProjectList(ArrayList<Project> taskListData) {
+        projectList = taskListData;
     }
 
     /**
@@ -627,9 +622,9 @@ public class DynamicListView extends ExpandableListView {
         }
     };
 
-    public void addRow(TaskListItem newObj){
-    final StableArrayAdapter adapter = (StableArrayAdapter) getExpandableListAdapter();
-    taskList.add(0, newObj);
+    public void addRow(Project newObj){
+    final ProjectArrayAdapter adapter = (ProjectArrayAdapter) getExpandableListAdapter();
+    projectList.add(0, newObj);
     adapter.addStableIdForDataAtPosition(0);
     adapter.notifyDataSetChanged();
 
@@ -638,6 +633,7 @@ public class DynamicListView extends ExpandableListView {
         CheckedTextView tw = (CheckedTextView) selectedView.findViewById(R.id.title_view);
         System.out.println("tw = " + tw.getText());
 
+        tw.setText("Hej Morten");
         tw.setSelectAllOnFocus(true);
         tw.hasFocus();
 
@@ -647,14 +643,14 @@ public class DynamicListView extends ExpandableListView {
 
     }
 
-    public void removeRow(TaskListItem newObj){
-        final StableArrayAdapter adapter = (StableArrayAdapter) getExpandableListAdapter();
-        taskList.add(0, newObj);
+    public void removeRow(Project newObj){
+        final ProjectArrayAdapter adapter = (ProjectArrayAdapter) getExpandableListAdapter();
+        projectList.add(0, newObj);
         adapter.addStableIdForDataAtPosition(0);
         adapter.notifyDataSetChanged();
     }
 
-    public void typeTaskName(TaskListItem newObj) {
+    public void typeProjectName(Project newObj) {
 
         View selectedView = getViewForID(1);
 
