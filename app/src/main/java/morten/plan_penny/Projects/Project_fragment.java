@@ -7,12 +7,9 @@ import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.InputType;
-import android.view.Display;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -21,10 +18,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import morten.plan_penny.Main.Data;
 import morten.plan_penny.R;
-import morten.plan_penny.Tasks.DynamicListView;
-import morten.plan_penny.Tasks.StableArrayAdapter;
-import morten.plan_penny.Tasks.TaskListItem;
 
 /**
  * Created by morten on 3/17/15.
@@ -47,6 +42,7 @@ public class Project_fragment extends Fragment implements View.OnClickListener {
 
     int taskCounter = 1;
     int mCellHeight = 80;
+    private Data data = Data.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,7 +56,7 @@ public class Project_fragment extends Fragment implements View.OnClickListener {
         System.out.println("" + fl.getWidth());
 
 
-        listItems = new ArrayList<>();
+        listItems = data.getProjectList();
         listAdapter = new ProjectArrayAdapter(listItems, projectFrag.getContext(), (LayoutInflater) projectFrag.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE));
 
         listView = (ProjectListView) projectFrag.findViewById(R.id.list);
@@ -91,7 +87,7 @@ public class Project_fragment extends Fragment implements View.OnClickListener {
 
         final Project newObj = new Project(mCellHeight);
         newObj.setTitle(title);
-
+        Data.projectToCloud(newObj);
         listView.addRow(newObj);
 
         listView.setEnabled(true);

@@ -1,17 +1,15 @@
 package morten.plan_penny.Tasks;
 
-import android.text.Editable;
-
 import java.util.ArrayList;
-import java.util.Date;
 
 import morten.plan_penny.Categories.Category;
+import morten.plan_penny.Main.Data;
 import morten.plan_penny.Projects.Project;
 
 /**
  * Created by morten on 3/18/15.
  */
-public class TaskListItem {
+public class Task {
 
     private String title;
 
@@ -28,7 +26,7 @@ public class TaskListItem {
 
     private ArrayList<Category> categories;
     private ArrayList<Project> projects;
-    private ArrayList<Boolean> options;
+    public ArrayList<Boolean> options;
 
     private String taskDescription = "Add Description...";
 
@@ -36,9 +34,11 @@ public class TaskListItem {
 
     private boolean checked;
 
+    Data data = Data.getInstance();
 
 
-    public TaskListItem(int collapsedHeight) {
+
+    public Task(int collapsedHeight) {
         super();
         mHeight = collapsedHeight;
         projects = new ArrayList<>();
@@ -89,18 +89,22 @@ public class TaskListItem {
 
     public void setChecked(boolean checked) {
         this.checked = checked;
+        data.setBoolean(title,"isChecked", checked);
     }
 
     public void setStartDate(String startDate) {
         this.startDate = startDate;
+        data.setString(title, "startDate" , startDate);
     }
 
     public void setTitle(String title) {
         this.title = title;
+        data.setString(title, "title" , title);
     }
 
     public void setStartTime(String startTime) {
         this.startTime = startTime;
+        data.setString(title, "startTime" , startTime);
     }
 
     public String getStartTime() {
@@ -113,6 +117,7 @@ public class TaskListItem {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+        data.setString(title, "endDate" , endDate);
     }
 
     public String getEndTime() {
@@ -122,14 +127,17 @@ public class TaskListItem {
 
     public void setAlertDate(String alertDate) {
         this.alertDate = alertDate;
+        data.setString(title, "alertDate" , alertDate);
     }
 
     public void setEndTime(String endTime) {
         this.endTime = endTime;
+        data.setString(title, "endTime" , endTime);
     }
 
     public void setAlertTime(String alertTime) {
         this.alertTime = alertTime;
+        data.setString(title, "alertTime" , alertTime);
     }
 
     public String getAlertDate() {
@@ -146,10 +154,12 @@ public class TaskListItem {
 
     public void setTaskDescription(String taskDescription) {
         this.taskDescription = taskDescription;
+        data.setString(title, "description" , taskDescription);
     }
 
     public void setTtc(int ttc) {
         this.ttc = ttc;
+        data.setInt(title,"ttc", ttc);
     }
 
     public int getTtc() {
@@ -175,5 +185,9 @@ public class TaskListItem {
 
     public ArrayList<Boolean> getOptions() {
         return options;
+    }
+
+    public void setStartTitle(String title) {
+        this.title = title;
     }
 }

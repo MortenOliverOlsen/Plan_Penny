@@ -19,7 +19,7 @@ public class TimeAndDatePicker {
     Calendar calendar = Calendar.getInstance();
     Context context;
     TextView textView;
-    TaskListItem task;
+    Task task;
     int type;
 
     public TimeAndDatePicker(Context context) {
@@ -71,14 +71,14 @@ public class TimeAndDatePicker {
         }
     }
 
-    public void setDateOnView(TextView tw, TaskListItem task, int type){
+    public void setDateOnView(TextView tw, Task task, int type){
         this.textView = tw;
         this.type = type;
         this.task = task;
         showDatePicker();
     }
 
-    public void setTimeOnView(TextView tw, TaskListItem task, int type){
+    public void setTimeOnView(TextView tw, Task task, int type){
         this.textView = tw;
         this.type = type;
         this.task = task;

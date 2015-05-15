@@ -3,13 +3,13 @@ package morten.plan_penny.Tasks;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
 import morten.plan_penny.Categories.Category;
+import morten.plan_penny.Main.Data;
 import morten.plan_penny.Projects.Project;
 import morten.plan_penny.R;
 
@@ -21,8 +21,10 @@ public class MultipleSelectSpinner {
     Context context;
 
     boolean[] selections;
-    private TaskListItem task;
+    private Task task;
     private int type;
+
+    Data data = Data.getInstance();
 
     CharSequence[] titleList;
 
@@ -47,7 +49,7 @@ public class MultipleSelectSpinner {
     public MultipleSelectSpinner(Context context) {
         this.context = context;
 
-        // Initialize test data
+     /*   // Initialize test data
         int color = Color.parseColor("#4c4cff");
         c1 = new Category("Morgen",color);
         categoryList.add(c1);
@@ -59,7 +61,7 @@ public class MultipleSelectSpinner {
         categoryList.add(c3);
         int color4 = Color.parseColor("#3DA428");
         c4 = new Category("Aften",color4);
-        categoryList.add(c4);
+        categoryList.add(c4);*/
     }
 
     private void showAlertDialog(){
@@ -127,13 +129,26 @@ public class MultipleSelectSpinner {
 
                             }
                     }
+
+                    switch (type){
+                        case 1:
+                            data.setTaskProjects(task.getTitle(), task.getProjects());
+                            break;
+                        case 2:
+                            data.setTaskCategories(task.getTitle(), task.getCategories());
+                            break;
+                        case 3:
+                            data.setTaskOptions(task.getTitle(), task.getOptions());
+                            break;
+                    }
+
                 }
             });
 
         dialog.show();
     }
 
-    public void selectItemsOnObject(TaskListItem task, ArrayList itemList, int type, View convertView){
+    public void selectItemsOnObject(Task task, ArrayList itemList, int type, View convertView){
         this.task = task;
         this.type = type;
         this.convertView = convertView;
@@ -200,7 +215,7 @@ public class MultipleSelectSpinner {
     private void updateAndLoadProjectList() {
         ArrayList<String> titles = new ArrayList<>();
 
-        // Get latest projects med backend
+        projectList = data.getProjectList();
 
         for (int i = 0; i < projectList.size(); i++){
             Project p = projectList.get(i);
@@ -212,7 +227,7 @@ public class MultipleSelectSpinner {
     private void updateAndLoadCategoryList() {
         ArrayList<String> titles = new ArrayList<>();
 
-        // Get latest categories med backend
+        categoryList = data.getCategoryList();
 
         for (int i = 0; i < categoryList.size(); i++){
             Category c = categoryList.get(i);

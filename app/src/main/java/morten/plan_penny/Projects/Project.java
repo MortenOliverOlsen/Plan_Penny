@@ -3,7 +3,7 @@ package morten.plan_penny.Projects;
 import java.util.ArrayList;
 
 import morten.plan_penny.Categories.Category;
-import morten.plan_penny.Tasks.TaskListItem;
+import morten.plan_penny.Tasks.Task;
 
 /**
  * Created by morten on 4/11/15.
@@ -11,7 +11,7 @@ import morten.plan_penny.Tasks.TaskListItem;
 public class Project {
     private int mHeight;
     private String title;
-    ArrayList<TaskListItem> tasks;
+    ArrayList<Task> tasks;
     ArrayList<Category> categories;
 
 
@@ -36,7 +36,7 @@ public class Project {
     public ArrayList<Category> getCategories() {
         for (int i = 0; i < tasks.size(); i++)
         {
-            TaskListItem task = tasks.get(i);
+            Task task = tasks.get(i);
             for (int j = 0; j < task.getCategories().size(); j++){
                 Category category = task.getCategories().get(j);
                 if ( !categories.contains(category)){
@@ -45,5 +45,9 @@ public class Project {
             }
         }
         return categories;
+    }
+
+    public void addTask(Task task) {
+        tasks.add(task);
     }
 }

@@ -10,22 +10,15 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.zip.Inflater;
 
-import morten.plan_penny.Categories.Category;
+import morten.plan_penny.Main.Data;
 import morten.plan_penny.R;
-import morten.plan_penny.Tasks.TaskListItem;
 
 /**
  * Created by morten on 3/17/15.
@@ -35,15 +28,15 @@ public class Tasks_fragment extends Fragment implements View.OnClickListener{
     private View taskFrag;
     private TextView header;
     private Button addButton;
-    private Button filter;
 
     private DynamicListView listView;
 
 
-   private StableArrayAdapter listAdapter;
+   public StableArrayAdapter listAdapter;
 
-    private  ArrayList<TaskListItem> listItems;
+    private  ArrayList<Task> listItems;
 
+    Data data = Data.getInstance();
 
     int taskCounter = 1;
     int mCellHeight = 80;
@@ -54,10 +47,10 @@ public class Tasks_fragment extends Fragment implements View.OnClickListener{
         taskFrag = inflater.inflate(R.layout.task_frag, container,false);
         Typeface latoReg = Typeface.createFromAsset(getActivity().getAssets(), "lato_regular.ttf");
 
-        listItems = new ArrayList<>();
+        listItems = data.getTaskList();
 
         listAdapter = new StableArrayAdapter(listItems, taskFrag.getContext(), (LayoutInflater) taskFrag.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE));
-
+        listAdapter.notifyDataSetChanged();
 
         listView = (DynamicListView) taskFrag.findViewById(R.id.list);
 
@@ -72,8 +65,6 @@ public class Tasks_fragment extends Fragment implements View.OnClickListener{
         addButton.setOnClickListener(this);
         addButton.setTypeface(latoReg);
 
-
-
         return taskFrag;
     }
 
@@ -82,13 +73,17 @@ public class Tasks_fragment extends Fragment implements View.OnClickListener{
         taskCounter++;
         String description = "This is string " + taskCounter + " and it has not yet received a description";
 
-        final TaskListItem newObj = new TaskListItem(mCellHeight);
-        newObj.setTitle(title);
+        Task newObj = new Task(mCellHeight);
+        newObj.setStartTitle(title);
+
+        Data.taskToCloud(newObj);
+
 
         listView.addRow(newObj);
 
         listView.setEnabled(true);
         addButton.setEnabled(true);
+
 
     }
 
@@ -135,11 +130,6 @@ public class Tasks_fragment extends Fragment implements View.OnClickListener{
                 builder.show();
 
             }
-
-        if (v == filter){
-
-
-        }
 
         }
     }

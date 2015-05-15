@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import morten.plan_penny.Main.Data;
 import morten.plan_penny.R;
 import yuku.ambilwarna.AmbilWarnaDialog;
 
@@ -31,11 +32,14 @@ public class Categories_fragment extends Fragment implements View.OnClickListene
 
     private Button addButton;
 
+
     private CategoryListView listView;
 
     private CategoryArrayAdapter listAdapter;
 
     private ArrayList<Category> listItems;
+
+    Data data = Data.getInstance();
 
     int taskCounter = 1;
     int mCellHeight = 80;
@@ -48,7 +52,7 @@ public class Categories_fragment extends Fragment implements View.OnClickListene
         Typeface latoReg = Typeface.createFromAsset(getActivity().getAssets(), "lato_regular.ttf");
         header.setTypeface(latoReg);
 
-        listItems = new ArrayList<>();
+        listItems = data.getCategoryList();
         listAdapter = new CategoryArrayAdapter(listItems, categoryFrag.getContext(), (LayoutInflater) categoryFrag.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE));
 
         listView = (CategoryListView) categoryFrag.findViewById(R.id.list);
@@ -64,6 +68,8 @@ public class Categories_fragment extends Fragment implements View.OnClickListene
         addButton.setTypeface(latoReg);
 
 
+
+
         return categoryFrag;
     }
 
@@ -74,6 +80,7 @@ public class Categories_fragment extends Fragment implements View.OnClickListene
 
         final Category newObj = new Category(color,mCellHeight);
         newObj.setTitle(title);
+        Data.categoryToCloud(newObj);
 
         listView.addRow(newObj);
 

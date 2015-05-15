@@ -24,6 +24,10 @@ public class Clipboard_fragment extends Fragment {
         header = (TextView) taskFrag.findViewById(R.id.textView_header);
         Typeface latoReg = Typeface.createFromAsset(getActivity().getAssets(), "lato_regular.ttf");
         header.setTypeface(latoReg);
+
+
+
+
         return taskFrag;
     }
 }

@@ -51,14 +51,14 @@ import morten.plan_penny.R;
  * This layout is in charge of positioning the hover cell in the correct location
  * on the screen in response to user touch events. It uses the position of the
  * hover cell to determine when two cells should be swapped. If two cells should
- * be swapped, all the corresponding data set and layout changes are handled here.
+ * be swapped, all the corresponding data setInt and layout changes are handled here.
  *
  * If no cell is selected, all the touch events are passed down to the listview
  * and behave normally. If one of the items in the listview experiences a
  * long press event, the contents of its current visible state are captured as
- * a bitmap and its visibility is set to INVISIBLE. A hover cell is then created and
+ * a bitmap and its visibility is setInt to INVISIBLE. A hover cell is then created and
  * added to this layout as an overlaying BitmapDrawable above the listview. Once the
- * hover cell is translated some distance to signify an item swap, a data set change
+ * hover cell is translated some distance to signify an item swap, a data setInt change
  * accompanied by animation takes place. When the user releases the hover cell,
  * it animates into its corresponding position in the listview.
  *
@@ -129,7 +129,7 @@ public class ProjectListView extends ExpandableListView {
 
     /**
      * Listens for long clicks on any items in the listview. When a cell has
-     * been selected, the hover cell is created and set up.
+     * been selected, the hover cell is created and setInt up.
      */
     private OnItemLongClickListener mOnItemLongClickListener =
             new OnItemLongClickListener() {
@@ -335,8 +335,8 @@ public class ProjectListView extends ExpandableListView {
     /**
      * This method determines whether the hover cell has been shifted far enough
      * to invoke a cell swap. If so, then the respective cell swap candidate is
-     * determined and the data set is changed. Upon posting a notification of the
-     * data set change, a layout is invoked to place the cells in the right place.
+     * determined and the data setInt is changed. Upon posting a notification of the
+     * data setInt change, a layout is invoked to place the cells in the right place.
      * Using a ViewTreeObserver and a corresponding OnPreDrawListener, we can
      * offset the cell being swapped to where it previously was and then animate it to
      * its new position.

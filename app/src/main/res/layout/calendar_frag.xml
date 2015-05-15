@@ -33,5 +33,9 @@
         android:layout_above="@+id/list_slot"
         android:background="@drawable/transparent_background">
 
+        <CalendarView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/calendarView" />
     </FrameLayout>
 </morten.plan_penny.Main.FragmentLayout>

@@ -3,7 +3,13 @@ package morten.plan_penny.Main;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+
+import com.parse.Parse;
+import com.parse.ParseObject;
+import com.parse.ParseSession;
 
 import morten.plan_penny.Calendar.Calendar_fragment;
 import morten.plan_penny.Categories.Categories_fragment;
@@ -30,6 +36,7 @@ implements Menu_fragment.OnButtonSelectedListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
+
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             menu_fragment = new Menu_fragment();
@@ -39,6 +46,7 @@ implements Menu_fragment.OnButtonSelectedListener {
             clipboard_fragment = new Clipboard_fragment();
             categories_fragment = new Categories_fragment();
             fragmentTransaction.add(R.id.menu_slot, menu_fragment).commit();
+
         }
 
     }

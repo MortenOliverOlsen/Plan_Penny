@@ -19,7 +19,6 @@ package morten.plan_penny.Tasks;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.text.InputType;
 import android.view.KeyEvent;
@@ -43,27 +42,32 @@ import java.util.HashMap;
 import java.util.List;
 
 import morten.plan_penny.Categories.Category;
+import morten.plan_penny.Main.Data;
 import morten.plan_penny.R;
 
 public class StableArrayAdapter extends BaseExpandableListAdapter{
 
     final int INVALID_ID = -1;
 
-    HashMap<TaskListItem, Integer> mIdMap = new HashMap<TaskListItem, Integer>();
+    HashMap<Task, Integer> mIdMap = new HashMap<Task, Integer>();
 
 
-    private List<TaskListItem> listItems;
+    private List<Task> listItems;
     int mCounter;
     private Context context;
     private LayoutInflater inflater;
+    Data data = Data.getInstance();
 
     Typeface latoReg;
 
-    public StableArrayAdapter(List<TaskListItem> objects, Context context, LayoutInflater inflater) {
+    public StableArrayAdapter(List<Task> objects, Context context, LayoutInflater inflater) {
         listItems = objects;
+        for (int i = 0; i <listItems.size(); i++){
+            addStableIdForDataAtPosition(i);
+        }
         setInflater(inflater,context);
         latoReg = Typeface.createFromAsset(context.getAssets(), "lato_regular.ttf");
-
+        notifyDataSetChanged();
        }
 
     public void setInflater(LayoutInflater inflater, Context context) {
@@ -76,14 +80,14 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
         if (position < 0 || position >= mIdMap.size()) {
             return INVALID_ID;
         }
-        TaskListItem item = listItems.get(position);
+        Task item = listItems.get(position);
         return mIdMap.get(item);
     }
 
     public void printArray(){
         String array = null;
         for (int i = 0; i < listItems.size(); i++){
-            TaskListItem item = listItems.get(i);
+            Task item = listItems.get(i);
             array += item.getTitle()+", ";
         }
         System.out.println("array = " + array);
@@ -93,7 +97,7 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
     @Override
     public View getChildView(final int parentPosition, final int childPosition, boolean isLastChild, View convertView, final ViewGroup parent) {
 
-        final TaskListItem task = listItems.get(parentPosition);
+        final Task task = listItems.get(parentPosition);
 
         final LinearLayout startDateView;
         final LinearLayout endDateView;
@@ -414,9 +418,9 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
 
     // Get parent view
     @Override
-    public View getGroupView(final int parentPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+    public View getGroupView(final int parentPosition, boolean isExpanded, View convertView, final ViewGroup parent) {
 
-        final TaskListItem task = listItems.get(parentPosition);
+        final Task task = listItems.get(parentPosition);
 
 
         if (convertView == null) {
@@ -428,8 +432,8 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
             @Override
             public void onClick(View v) {
                 task.setChecked(!task.isChecked());
-
-                removeItem(parentPosition);
+                //removeItem(parentPosition);
+                removeWhenChecked(parentPosition);
                 addItem(task);
             }
         });
@@ -451,7 +455,9 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
         return convertView;
     }
 
-    void updateCategoryViews(View convertView, TaskListItem task){
+
+
+    void updateCategoryViews(View convertView, Task task){
         for (int i = 0; i < 5; i++){
             Category c = null;
             if (i < task.getCategories().size()){
@@ -514,7 +520,7 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
 
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        final TaskListItem task = listItems.get(position);
+        final Task task = listItems.get(position);
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
@@ -579,18 +585,25 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
     }
 
     public void removeItem(int position){
-        TaskListItem removedItem = listItems.get(position);
+        Task removedItem = listItems.get(position);
+        data.remove("Task", removedItem.getTitle());
         mIdMap.remove(removedItem);
         listItems.remove(position);
         notifyDataSetChanged();
     }
 
-    public void addItem(TaskListItem task){
+    public void addItem(Task task){
 
         listItems.add(listItems.size(),task);
         addStableIdForDataAtPosition(listItems.size()-1);
         notifyDataSetChanged();
     }
 
+    private void removeWhenChecked(int position) {
+        Task removedItem = listItems.get(position);
+        mIdMap.remove(removedItem);
+        listItems.remove(position);
+        notifyDataSetChanged();
+    }
 
 }

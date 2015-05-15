@@ -18,9 +18,7 @@ package morten.plan_penny.Tasks;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -37,16 +35,14 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
+import morten.plan_penny.Main.Data;
 import morten.plan_penny.R;
 
 /**
@@ -56,14 +52,14 @@ import morten.plan_penny.R;
  * This layout is in charge of positioning the hover cell in the correct location
  * on the screen in response to user touch events. It uses the position of the
  * hover cell to determine when two cells should be swapped. If two cells should
- * be swapped, all the corresponding data set and layout changes are handled here.
+ * be swapped, all the corresponding data setInt and layout changes are handled here.
  *
  * If no cell is selected, all the touch events are passed down to the listview
  * and behave normally. If one of the items in the listview experiences a
  * long press event, the contents of its current visible state are captured as
- * a bitmap and its visibility is set to INVISIBLE. A hover cell is then created and
+ * a bitmap and its visibility is setInt to INVISIBLE. A hover cell is then created and
  * added to this layout as an overlaying BitmapDrawable above the listview. Once the
- * hover cell is translated some distance to signify an item swap, a data set change
+ * hover cell is translated some distance to signify an item swap, a data setInt change
  * accompanied by animation takes place. When the user releases the hover cell,
  * it animates into its corresponding position in the listview.
  *
@@ -76,7 +72,7 @@ public class DynamicListView extends ExpandableListView {
     private final int MOVE_DURATION = 150;
     private final int LINE_THICKNESS = 15;
 
-    public ArrayList<TaskListItem> taskList;
+    public ArrayList<Task> taskList;
 
     private int mLastEventY = -1;
     private int mDownY = -1;
@@ -134,7 +130,7 @@ public class DynamicListView extends ExpandableListView {
 
     /**
      * Listens for long clicks on any items in the listview. When a cell has
-     * been selected, the hover cell is created and set up.
+     * been selected, the hover cell is created and setInt up.
      */
     private OnItemLongClickListener mOnItemLongClickListener =
             new OnItemLongClickListener() {
@@ -340,8 +336,8 @@ public class DynamicListView extends ExpandableListView {
     /**
      * This method determines whether the hover cell has been shifted far enough
      * to invoke a cell swap. If so, then the respective cell swap candidate is
-     * determined and the data set is changed. Upon posting a notification of the
-     * data set change, a layout is invoked to place the cells in the right place.
+     * determined and the data setInt is changed. Upon posting a notification of the
+     * data setInt change, a layout is invoked to place the cells in the right place.
      * Using a ViewTreeObserver and a corresponding OnPreDrawListener, we can
      * offset the cell being swapped to where it previously was and then animate it to
      * its new position.
@@ -537,7 +533,7 @@ public class DynamicListView extends ExpandableListView {
         return false;
     }
 
-    public void setTaskList(ArrayList<TaskListItem> taskListData) {
+    public void setTaskList(ArrayList<Task> taskListData) {
         taskList = taskListData;
     }
 
@@ -627,7 +623,7 @@ public class DynamicListView extends ExpandableListView {
         }
     };
 
-    public void addRow(TaskListItem newObj){
+    public void addRow(Task newObj){
     final StableArrayAdapter adapter = (StableArrayAdapter) getExpandableListAdapter();
     taskList.add(0, newObj);
     adapter.addStableIdForDataAtPosition(0);
@@ -647,14 +643,14 @@ public class DynamicListView extends ExpandableListView {
 
     }
 
-    public void removeRow(TaskListItem newObj){
+    public void removeRow(Task newObj){
         final StableArrayAdapter adapter = (StableArrayAdapter) getExpandableListAdapter();
         taskList.add(0, newObj);
         adapter.addStableIdForDataAtPosition(0);
         adapter.notifyDataSetChanged();
     }
 
-    public void typeTaskName(TaskListItem newObj) {
+    public void typeTaskName(Task newObj) {
 
         View selectedView = getViewForID(1);
 

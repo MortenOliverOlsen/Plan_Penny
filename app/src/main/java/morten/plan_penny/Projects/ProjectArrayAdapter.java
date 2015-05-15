@@ -16,26 +16,15 @@
 
 package morten.plan_penny.Projects;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.Color;
 import android.graphics.Typeface;
-import android.text.InputType;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CheckedTextView;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -46,10 +35,8 @@ import java.util.List;
 import morten.plan_penny.Categories.Category;
 import morten.plan_penny.R;
 import morten.plan_penny.Tasks.DynamicListView;
-import morten.plan_penny.Tasks.MultipleSelectSpinner;
 import morten.plan_penny.Tasks.StableArrayAdapter;
-import morten.plan_penny.Tasks.TaskListItem;
-import morten.plan_penny.Tasks.TimeAndDatePicker;
+import morten.plan_penny.Tasks.Task;
 
 public class ProjectArrayAdapter extends BaseExpandableListAdapter{
 
@@ -60,7 +47,7 @@ public class ProjectArrayAdapter extends BaseExpandableListAdapter{
 
     private List<Project> listItems;
 
-    ArrayList<TaskListItem> tasklistItems;
+    ArrayList<Task> tasklistItems;
     int mCounter;
     private Context context;
     private LayoutInflater inflater;
@@ -69,6 +56,9 @@ public class ProjectArrayAdapter extends BaseExpandableListAdapter{
 
     public ProjectArrayAdapter(List<Project> objects, Context context, LayoutInflater inflater) {
         listItems = objects;
+        for (int i = 0; i <listItems.size(); i++){
+            addStableIdForDataAtPosition(i);
+        }
         setInflater(inflater,context);
         latoReg = Typeface.createFromAsset(context.getAssets(), "lato_regular.ttf");
 
@@ -124,25 +114,6 @@ public class ProjectArrayAdapter extends BaseExpandableListAdapter{
         listView.setAdapter(listAdapter);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
-        TaskListItem newObj = new TaskListItem(80);
-        newObj.setTitle("Task1");
-        listView.addRow(newObj);
-        TaskListItem newObj2 = new TaskListItem(80);
-        newObj2.setTitle("Task2");
-        listView.addRow(newObj2);
-        TaskListItem newObj3 = new TaskListItem(80);
-        newObj.setTitle("Task3");
-        listView.addRow(newObj3);
-        TaskListItem newObj4 = new TaskListItem(80);
-        newObj2.setTitle("Task4");
-        listView.addRow(newObj4);
-        TaskListItem newObj5 = new TaskListItem(80);
-        newObj.setTitle("Task5");
-        listView.addRow(newObj5);
-        TaskListItem newObj6 = new TaskListItem(80);
-        newObj2.setTitle("Task6");
-        listView.addRow(newObj6);
-
         listView.setOnTouchListener(new DynamicListView.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -162,7 +133,6 @@ public class ProjectArrayAdapter extends BaseExpandableListAdapter{
     public View getGroupView(final int parentPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
         final Project project = listItems.get(parentPosition);
-
 
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.parent_layout_project, null);

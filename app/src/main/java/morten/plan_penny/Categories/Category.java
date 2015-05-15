@@ -6,8 +6,8 @@ package morten.plan_penny.Categories;
 public class Category {
 
     private String title;
-    private final int color;
-    private int mHeight;
+    private int color;
+    private int mHeight = 80;
 
     public Category( String title, int color) {
         this.title = title;
@@ -28,6 +28,9 @@ public class Category {
 
     public int getColor() {
         return color;
+    }
+    public void setColor(int color) {
+        this.color = color;
     }
 
     public int getHeight() {
