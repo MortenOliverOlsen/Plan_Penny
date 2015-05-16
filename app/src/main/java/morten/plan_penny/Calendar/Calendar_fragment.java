@@ -62,6 +62,7 @@ public class Calendar_fragment extends Fragment implements View.OnClickListener 
                     calIntent.putExtra(CalendarContract.Events.TITLE, task.getTitle());
                     calIntent.putExtra(CalendarContract.Events.DESCRIPTION, task.getDescription());
 
+
                     // Start time and date
                     String startDateString = task.getStartDate();
                     GregorianCalendar startDate = stringToDate(startDateString);
