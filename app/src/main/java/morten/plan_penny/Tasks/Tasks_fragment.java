@@ -28,6 +28,7 @@ public class Tasks_fragment extends Fragment implements View.OnClickListener{
     private View taskFrag;
     private TextView header;
     private Button addButton;
+    private Button optionsButton;
 
     private DynamicListView listView;
 
@@ -43,7 +44,10 @@ public class Tasks_fragment extends Fragment implements View.OnClickListener{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (taskFrag != null) return taskFrag;
+        if (taskFrag != null){
+            listAdapter.updatePositions();
+            return taskFrag;
+        } else {
         taskFrag = inflater.inflate(R.layout.task_frag, container,false);
         Typeface latoReg = Typeface.createFromAsset(getActivity().getAssets(), "lato_regular.ttf");
 
@@ -65,7 +69,12 @@ public class Tasks_fragment extends Fragment implements View.OnClickListener{
         addButton.setOnClickListener(this);
         addButton.setTypeface(latoReg);
 
+        optionsButton = (Button) taskFrag.findViewById(R.id.options_btn);
+        optionsButton.setOnClickListener(this);
+
+
         return taskFrag;
+        }
     }
 
     public void addRow(String title) {
@@ -130,6 +139,9 @@ public class Tasks_fragment extends Fragment implements View.OnClickListener{
                 builder.show();
 
             }
+
+        }
+        if(v == optionsButton ){
 
         }
     }

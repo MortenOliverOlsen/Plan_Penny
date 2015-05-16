@@ -432,6 +432,7 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
             @Override
             public void onClick(View v) {
                 task.setChecked(!task.isChecked());
+
                 //removeItem(parentPosition);
                 removeWhenChecked(parentPosition);
                 addItem(task);
@@ -540,6 +541,7 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
 
     public void addStableIdForDataAtPosition(int position) {
         mIdMap.put(listItems.get(position), ++mCounter);
+       // updateCloudPosFromIndex(position);
     }
 
 
@@ -593,10 +595,10 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
     }
 
     public void addItem(Task task){
-
         listItems.add(listItems.size(),task);
         addStableIdForDataAtPosition(listItems.size()-1);
         notifyDataSetChanged();
+        updateCloudPosFromIndex(listItems.size()-1);
     }
 
     private void removeWhenChecked(int position) {
@@ -604,6 +606,20 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
         mIdMap.remove(removedItem);
         listItems.remove(position);
         notifyDataSetChanged();
+        updateCloudPosFromIndex(position);
+
+    }
+
+    public void updatePositions() {
+        for (int i = 0; i <listItems.size(); i++){
+            addStableIdForDataAtPosition(i);
+        }
+    }
+
+    public void updateCloudPosFromIndex(int index){
+     /*   for (int i = index;i <listItems.size() ; i++) {
+            data.setInt("Task", listItems.get(i).getTitle(), "index", i);
+        }*/
     }
 
 }

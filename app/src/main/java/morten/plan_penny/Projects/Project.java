@@ -11,6 +11,12 @@ import morten.plan_penny.Tasks.Task;
 public class Project {
     private int mHeight;
     private String title;
+
+
+    public ArrayList<Task> getTasks() {
+        return tasks;
+    }
+
     ArrayList<Task> tasks;
     ArrayList<Category> categories;
 
@@ -45,6 +51,11 @@ public class Project {
             }
         }
         return categories;
+    }
+
+    public Task getTask(int index) {
+
+        return tasks.get(index);
     }
 
     public void addTask(Task task) {

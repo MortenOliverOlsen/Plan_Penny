@@ -406,6 +406,8 @@ public class DynamicListView extends ExpandableListView {
         Object temp = arrayList.get(indexOne);
         arrayList.set(indexOne, arrayList.get(indexTwo));
         arrayList.set(indexTwo, temp);
+        final StableArrayAdapter adapter = (StableArrayAdapter) getExpandableListAdapter();
+        adapter.updateCloudPosFromIndex(0);
     }
 
 
@@ -628,6 +630,7 @@ public class DynamicListView extends ExpandableListView {
     taskList.add(0, newObj);
     adapter.addStableIdForDataAtPosition(0);
     adapter.notifyDataSetChanged();
+    adapter.updateCloudPosFromIndex(0);
 
         View selectedView = adapter.getGroupView(0,false,null,null);
 

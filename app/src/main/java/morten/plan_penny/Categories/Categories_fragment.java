@@ -46,31 +46,33 @@ public class Categories_fragment extends Fragment implements View.OnClickListene
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (categoryFrag != null) return categoryFrag;
-        categoryFrag = inflater.inflate(R.layout.category_frag, container,false);
-        header = (TextView) categoryFrag.findViewById(R.id.textView_header);
-        Typeface latoReg = Typeface.createFromAsset(getActivity().getAssets(), "lato_regular.ttf");
-        header.setTypeface(latoReg);
+        if (categoryFrag != null){
+            listAdapter.updatePositions();
+            return categoryFrag;
+        } else {
 
-        listItems = data.getCategoryList();
-        listAdapter = new CategoryArrayAdapter(listItems, categoryFrag.getContext(), (LayoutInflater) categoryFrag.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE));
+            categoryFrag = inflater.inflate(R.layout.category_frag, container, false);
+            header = (TextView) categoryFrag.findViewById(R.id.textView_header);
+            Typeface latoReg = Typeface.createFromAsset(getActivity().getAssets(), "lato_regular.ttf");
+            header.setTypeface(latoReg);
 
-        listView = (CategoryListView) categoryFrag.findViewById(R.id.list);
-        listView.setGroupIndicator(null);
-        listView.setCategoryList(listItems);
-        listView.setAdapter(listAdapter);
-        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+            listItems = data.getCategoryList();
+            listAdapter = new CategoryArrayAdapter(listItems, categoryFrag.getContext(), (LayoutInflater) categoryFrag.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE));
 
-
-
-        addButton = (Button) categoryFrag.findViewById(R.id.addButton);
-        addButton.setOnClickListener(this);
-        addButton.setTypeface(latoReg);
+            listView = (CategoryListView) categoryFrag.findViewById(R.id.list);
+            listView.setGroupIndicator(null);
+            listView.setCategoryList(listItems);
+            listView.setAdapter(listAdapter);
+            listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
 
+            addButton = (Button) categoryFrag.findViewById(R.id.addButton);
+            addButton.setOnClickListener(this);
+            addButton.setTypeface(latoReg);
 
 
-        return categoryFrag;
+            return categoryFrag;
+        }
     }
 
     public void addRow(String title, int color) {
@@ -79,7 +81,7 @@ public class Categories_fragment extends Fragment implements View.OnClickListene
         String description = "This is string " + taskCounter + " and it has not yet received a description";
 
         final Category newObj = new Category(color,mCellHeight);
-        newObj.setTitle(title);
+        newObj.setStartTitle(title);
         Data.categoryToCloud(newObj);
 
         listView.addRow(newObj);

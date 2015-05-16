@@ -405,6 +405,8 @@ public class ProjectListView extends ExpandableListView {
         Object temp = arrayList.get(indexOne);
         arrayList.set(indexOne, arrayList.get(indexTwo));
         arrayList.set(indexTwo, temp);
+        final ProjectArrayAdapter adapter = (ProjectArrayAdapter) getExpandableListAdapter();
+        adapter.updateCloudPosFromIndex();
     }
 
 
@@ -627,6 +629,7 @@ public class ProjectListView extends ExpandableListView {
     projectList.add(0, newObj);
     adapter.addStableIdForDataAtPosition(0);
     adapter.notifyDataSetChanged();
+        adapter.updateCloudPosFromIndex();
 
         View selectedView = adapter.getGroupView(0,false,null,null);
 

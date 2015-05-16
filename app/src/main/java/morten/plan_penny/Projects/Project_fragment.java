@@ -46,38 +46,39 @@ public class Project_fragment extends Fragment implements View.OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (projectFrag != null) return projectFrag;
+        if (projectFrag != null){
+            listAdapter.updatePositions();
+            return projectFrag;
+        } else {
 
-        projectFrag = inflater.inflate(R.layout.project_frag, container,false);
-        header = (TextView) projectFrag.findViewById(R.id.textView_header);
-        Typeface latoReg = Typeface.createFromAsset(getActivity().getAssets(), "lato_regular.ttf");
-        header.setTypeface(latoReg);
-        FrameLayout fl = (FrameLayout) projectFrag.findViewById(R.id.header_slot);
-        System.out.println("" + fl.getWidth());
-
-
-        listItems = data.getProjectList();
-        listAdapter = new ProjectArrayAdapter(listItems, projectFrag.getContext(), (LayoutInflater) projectFrag.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE));
-
-        listView = (ProjectListView) projectFrag.findViewById(R.id.list);
-        listView.setGroupIndicator(null);
-        listView.setProjectList(listItems);
-        listView.setAdapter(listAdapter);
-        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+            projectFrag = inflater.inflate(R.layout.project_frag, container, false);
+            header = (TextView) projectFrag.findViewById(R.id.textView_header);
+            Typeface latoReg = Typeface.createFromAsset(getActivity().getAssets(), "lato_regular.ttf");
+            header.setTypeface(latoReg);
+            FrameLayout fl = (FrameLayout) projectFrag.findViewById(R.id.header_slot);
+            System.out.println("" + fl.getWidth());
 
 
+            listItems = data.getProjectList();
+            listAdapter = new ProjectArrayAdapter(listItems, projectFrag.getContext(), (LayoutInflater) projectFrag.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE));
 
-        addButton = (Button) projectFrag.findViewById(R.id.addButton);
-        addButton.setOnClickListener(this);
-        addButton.setTypeface(latoReg);
-
-        ganttBtn = (Button) projectFrag.findViewById(R.id.ganttButton);
-        ganttBtn.setOnClickListener(this);
-
+            listView = (ProjectListView) projectFrag.findViewById(R.id.list);
+            listView.setGroupIndicator(null);
+            listView.setProjectList(listItems);
+            listView.setAdapter(listAdapter);
+            listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
 
+            addButton = (Button) projectFrag.findViewById(R.id.addButton);
+            addButton.setOnClickListener(this);
+            addButton.setTypeface(latoReg);
 
-        return projectFrag;
+            ganttBtn = (Button) projectFrag.findViewById(R.id.ganttButton);
+            ganttBtn.setOnClickListener(this);
+
+
+            return projectFrag;
+        }
     }
 
     public void addRow(String title) {

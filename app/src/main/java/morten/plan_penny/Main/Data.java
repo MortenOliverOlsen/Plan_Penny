@@ -22,8 +22,8 @@ public class Data {
     private static Data instance = null;
 
     ArrayList<Task> taskList;
-    ArrayList<Project> projectList;
-    ArrayList<Category> categoryList;
+    static ArrayList<Project> projectList;
+    static ArrayList<Category> categoryList;
 
     public Data() {
         taskList = new ArrayList<>();
@@ -87,7 +87,7 @@ public class Data {
 
     }
 
-    public Task cloudToTask(ParseObject cloudTask) {
+    public static Task cloudToTask(ParseObject cloudTask) {
         Task task = new Task(80);
 
 
@@ -137,6 +137,7 @@ public class Data {
 
 
     public ArrayList<Task> getAllTasks() {
+
         final ArrayList<Task> tempTaskList = new ArrayList<>();
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Task");
@@ -313,8 +314,8 @@ public class Data {
 
     }
 
-    public void setInt(String title, final String column , final int intValue) {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Task");
+    public void setInt(String list, String title, final String column , final int intValue) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(list);
         query.whereEqualTo("title", title);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -331,8 +332,8 @@ public class Data {
         });
     }
 
-    public void setString(String title, final String column , final String stringValue) {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Task");
+    public void setString(String list, String title, final String column , final String stringValue) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(list);
         query.whereEqualTo("title", title);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -369,4 +370,5 @@ public class Data {
             }
         });
     }
+
 }

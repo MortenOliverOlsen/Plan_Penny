@@ -19,7 +19,6 @@ package morten.plan_penny.Categories;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -35,6 +34,7 @@ import android.widget.ListView;
 import java.util.HashMap;
 import java.util.List;
 
+import morten.plan_penny.Main.Data;
 import morten.plan_penny.R;
 import yuku.ambilwarna.AmbilWarnaDialog;
 
@@ -52,6 +52,8 @@ public class CategoryArrayAdapter extends BaseExpandableListAdapter{
     private LayoutInflater inflater;
 
     Typeface latoReg;
+
+    Data data = Data.getInstance();
 
     public CategoryArrayAdapter(List<Category> objects, Context context, LayoutInflater inflater) {
         listItems = objects;
@@ -238,13 +240,26 @@ public class CategoryArrayAdapter extends BaseExpandableListAdapter{
         mIdMap.remove(removedItem);
         listItems.remove(position);
         notifyDataSetChanged();
+        updateCloudPosFromIndex();
     }
 
     public void addItem(Category task){
         listItems.add(listItems.size(),task);
         addStableIdForDataAtPosition(listItems.size()-1);
         notifyDataSetChanged();
+        updateCloudPosFromIndex();
     }
 
+    public void updatePositions() {
+        for (int i = 0; i <listItems.size(); i++){
+            addStableIdForDataAtPosition(i);
+        }
+    }
+
+    public void updateCloudPosFromIndex(){
+      /*  for (int i = 0; i <listItems.size() ; i++) {
+            data.setInt("Category", listItems.get(i).getTitle(), "index", i);
+        }*/
+    }
 
 }

@@ -407,6 +407,8 @@ public class CategoryListView extends ExpandableListView {
         Object temp = arrayList.get(indexOne);
         arrayList.set(indexOne, arrayList.get(indexTwo));
         arrayList.set(indexTwo, temp);
+        final CategoryArrayAdapter adapter = (CategoryArrayAdapter) getExpandableListAdapter();
+        adapter.updateCloudPosFromIndex();
     }
 
 
@@ -629,6 +631,7 @@ public class CategoryListView extends ExpandableListView {
     categoryList.add(0, newObj);
     adapter.addStableIdForDataAtPosition(0);
     adapter.notifyDataSetChanged();
+    adapter.updateCloudPosFromIndex();
 
         View selectedView = adapter.getGroupView(0,false,null,null);
 

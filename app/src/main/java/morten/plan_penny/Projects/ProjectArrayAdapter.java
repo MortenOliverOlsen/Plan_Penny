@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import morten.plan_penny.Categories.Category;
+import morten.plan_penny.Main.Data;
 import morten.plan_penny.R;
 import morten.plan_penny.Tasks.DynamicListView;
 import morten.plan_penny.Tasks.StableArrayAdapter;
@@ -51,6 +52,7 @@ public class ProjectArrayAdapter extends BaseExpandableListAdapter{
     int mCounter;
     private Context context;
     private LayoutInflater inflater;
+    Data data = Data.getInstance();
 
     Typeface latoReg;
 
@@ -102,7 +104,7 @@ public class ProjectArrayAdapter extends BaseExpandableListAdapter{
         StableArrayAdapter listAdapter;
 
 
-        tasklistItems = new ArrayList<>();
+        tasklistItems = project.getTasks();
 
 
         listAdapter = new StableArrayAdapter(tasklistItems, context, (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
@@ -331,6 +333,7 @@ public class ProjectArrayAdapter extends BaseExpandableListAdapter{
         mIdMap.remove(removedItem);
         listItems.remove(position);
         notifyDataSetChanged();
+        updateCloudPosFromIndex();
     }
 
     public void addItem(Project task){
@@ -338,7 +341,18 @@ public class ProjectArrayAdapter extends BaseExpandableListAdapter{
         listItems.add(listItems.size(),task);
         addStableIdForDataAtPosition(listItems.size()-1);
         notifyDataSetChanged();
+        updateCloudPosFromIndex();
     }
 
+    public void updatePositions() {
+        for (int i = 0; i <listItems.size(); i++){
+            addStableIdForDataAtPosition(i);
+        }
+    }
 
+    public void updateCloudPosFromIndex(){
+      /*  for (int i = 0; i <listItems.size() ; i++) {
+            data.setInt("Project", listItems.get(i).getTitle(), "index", i);
+        }*/
+    }
 }

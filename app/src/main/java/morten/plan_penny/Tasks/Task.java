@@ -94,17 +94,17 @@ public class Task {
 
     public void setStartDate(String startDate) {
         this.startDate = startDate;
-        data.setString(title, "startDate" , startDate);
+        data.setString("Task", title, "startDate" , startDate);
     }
 
     public void setTitle(String title) {
         this.title = title;
-        data.setString(title, "title" , title);
+        data.setString("Task", this.title, "title" , title);
     }
 
     public void setStartTime(String startTime) {
         this.startTime = startTime;
-        data.setString(title, "startTime" , startTime);
+        data.setString("Task",title, "startTime" , startTime);
     }
 
     public String getStartTime() {
@@ -117,7 +117,7 @@ public class Task {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
-        data.setString(title, "endDate" , endDate);
+        data.setString("Task",title, "endDate" , endDate);
     }
 
     public String getEndTime() {
@@ -127,17 +127,17 @@ public class Task {
 
     public void setAlertDate(String alertDate) {
         this.alertDate = alertDate;
-        data.setString(title, "alertDate" , alertDate);
+        data.setString("Task",title, "alertDate" , alertDate);
     }
 
     public void setEndTime(String endTime) {
         this.endTime = endTime;
-        data.setString(title, "endTime" , endTime);
+        data.setString("Task",title, "endTime" , endTime);
     }
 
     public void setAlertTime(String alertTime) {
         this.alertTime = alertTime;
-        data.setString(title, "alertTime" , alertTime);
+        data.setString("Task",title, "alertTime" , alertTime);
     }
 
     public String getAlertDate() {
@@ -154,12 +154,12 @@ public class Task {
 
     public void setTaskDescription(String taskDescription) {
         this.taskDescription = taskDescription;
-        data.setString(title, "description" , taskDescription);
+        data.setString("Task",title, "description" , taskDescription);
     }
 
     public void setTtc(int ttc) {
         this.ttc = ttc;
-        data.setInt(title,"ttc", ttc);
+        data.setInt("Task",title,"ttc", ttc);
     }
 
     public int getTtc() {
