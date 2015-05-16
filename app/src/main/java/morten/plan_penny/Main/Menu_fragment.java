@@ -40,8 +40,8 @@ public class Menu_fragment extends Fragment implements View.OnClickListener{
         categories_button = (RadioButton) menuFrag.findViewById(R.id.categories_button);
         categories_button.setOnClickListener(this);
 
-        task_button.callOnClick();
-        task_button.toggle();
+     //   task_button.callOnClick();
+     //  task_button.toggle();
         return menuFrag;
     }
 

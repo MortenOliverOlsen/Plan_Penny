@@ -1,8 +1,11 @@
 package morten.plan_penny.Main;
 
+import android.content.Context;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -25,10 +28,16 @@ public class Data {
     static ArrayList<Project> projectList;
     static ArrayList<Category> categoryList;
 
+
+
+    Context context;
+
     public Data() {
         taskList = new ArrayList<>();
         projectList = new ArrayList<>();
         categoryList = new ArrayList<>();
+
+
     }
 
     public static Data getInstance() {
@@ -36,6 +45,20 @@ public class Data {
             instance = new Data();
         }
         return instance;
+    }
+
+
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    public Boolean isInOfflineStorageMode(){
+        Boolean pref_offlineSync = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("offline", true);
+        if (pref_offlineSync == true) {
+            return true;
+        } else return false;
+
     }
 
     public void loadArrayLists() {
@@ -83,7 +106,10 @@ public class Data {
 
         taskQ.put("options", task.getOptions());
 
-        taskQ.saveInBackground();
+
+        if (Data.getInstance().isInOfflineStorageMode()){
+            taskQ.saveEventually();
+        } else taskQ.saveInBackground();
 
     }
 
@@ -164,7 +190,11 @@ public class Data {
         ParseObject categoryQ = new ParseObject("Category");
         categoryQ.put("title", category.getTitle());
         categoryQ.put("color", category.getColor());
-        categoryQ.saveInBackground();
+
+        if (Data.getInstance().isInOfflineStorageMode()){
+            categoryQ.saveEventually();
+        } else categoryQ.saveInBackground();
+
     }
 
     public Category cloudToCategory(ParseObject cloudCategory) {
@@ -200,7 +230,11 @@ public class Data {
     public static void projectToCloud(Project project) {
         ParseObject projectQ = new ParseObject("Project");
         projectQ.put("title", project.getTitle());
-        projectQ.saveInBackground();
+
+        if (Data.getInstance().isInOfflineStorageMode()){
+            projectQ.saveEventually();
+        } else projectQ.saveInBackground();
+
     }
     public Project cloudToProject(ParseObject cloudProject) {
         Project project = new Project(80);
@@ -245,7 +279,11 @@ public class Data {
                     Log.d("settings", "Retrieved " + cloudSettings.size() + " scores");
                     ParseObject cSettings = cloudSettings.get(0);
                     cSettings.put("options",settingsList);
-                    cSettings.saveInBackground();
+
+                    if (Data.getInstance().isInOfflineStorageMode()){
+                        cSettings.saveEventually();
+                    } else cSettings.saveInBackground();
+
                 } else {
                     Log.d("settings", "Error: " + e.getMessage());
                 }
@@ -266,7 +304,11 @@ public class Data {
                     for ( Project project : projectList) {
                         cProjects.add("projects", project.getTitle());
                     }
-                    cProjects.saveInBackground();
+
+                    if (Data.getInstance().isInOfflineStorageMode()){
+                        cProjects.saveEventually();
+                    } else  cProjects.saveInBackground();
+
                 } else {
                     Log.d("projects", "Error: " + e.getMessage());
                 }
@@ -287,7 +329,11 @@ public class Data {
                     for ( Category category : categoryList) {
                         cCategories.add("categories", category.getTitle());
                     }
-                    cCategories.saveInBackground();
+
+                    if (Data.getInstance().isInOfflineStorageMode()){
+                        cCategories.saveEventually();
+                    } else  cCategories.saveInBackground();
+
                 } else {
                     Log.d("settings", "Error: " + e.getMessage());
                 }
@@ -305,7 +351,11 @@ public class Data {
                 if (e == null) {
                     Log.d("settings", "Retrieved " + cloudTasks.size() + " scores");
                     ParseObject cTask = cloudTasks.get(0);
-                    cTask.deleteInBackground();
+
+                    if (Data.getInstance().isInOfflineStorageMode()){
+                        cTask.deleteEventually();
+                    } else  cTask.deleteInBackground();
+
                 } else {
                     Log.d("settings", "Error: " + e.getMessage());
                 }
@@ -324,7 +374,11 @@ public class Data {
                     Log.d("tasks", "Retrieved " + cloudTasks.size() + " scores");
                     ParseObject cTask = cloudTasks.get(0);
                     cTask.put(column,intValue);
-                    cTask.saveInBackground();
+
+                    if (Data.getInstance().isInOfflineStorageMode()){
+                        cTask.saveEventually();
+                    } else  cTask.saveInBackground();
+
                 } else {
                     Log.d("tasks", "Error: " + e.getMessage());
                 }
@@ -345,7 +399,11 @@ public class Data {
                     }
                     ParseObject cTask = cloudTasks.get(0);
                     cTask.put(column, stringValue);
-                    cTask.saveInBackground();
+
+                    if (Data.getInstance().isInOfflineStorageMode()){
+                        cTask.saveEventually();
+                    } else  cTask.saveInBackground();
+
                 } else {
                     Log.d("tasks", "Error: " + e.getMessage());
                 }
@@ -363,7 +421,12 @@ public class Data {
                     Log.d("tasks", "Retrieved " + cloudTasks.size() + " scores");
                     ParseObject cTask = cloudTasks.get(0);
                     cTask.put(column, boolValue);
-                    cTask.saveInBackground();
+
+                    if (Data.getInstance().isInOfflineStorageMode()){
+                        cTask.saveEventually();
+                    } else    cTask.saveInBackground();
+
+
                 } else {
                     Log.d("tasks", "Error: " + e.getMessage());
                 }

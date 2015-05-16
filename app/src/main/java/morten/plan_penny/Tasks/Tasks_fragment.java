@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.InputType;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import morten.plan_penny.Main.Data;
+import morten.plan_penny.Main.Settings;
 import morten.plan_penny.R;
 
 /**
@@ -142,7 +144,8 @@ public class Tasks_fragment extends Fragment implements View.OnClickListener{
 
         }
         if(v == optionsButton ){
-
+            Intent intent = new Intent(getActivity(), Settings.class);
+            startActivity(intent);
         }
     }
 }

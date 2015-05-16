@@ -7,6 +7,7 @@
 
     <FrameLayout
         android:id="@+id/content_frag"
+        android:background="@drawable/splash_screen"
         android:layout_height="match_parent"
         android:layout_width="fill_parent"
         android:layout_below="@+id/header_slot"

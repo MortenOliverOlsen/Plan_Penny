@@ -2,12 +2,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <CheckBoxPreference
-        android:title="Remember win/lose"
-        android:key="wl"
+        android:title="Save when offline"
+        android:key="offline"
         ></CheckBoxPreference>
 
     <CheckBoxPreference
-        android:title="Download words"
-        android:key="dlw"></CheckBoxPreference>
+        android:title="Sync with Google calendar"
+        android:key="calSync"></CheckBoxPreference>
 
 </PreferenceScreen>
