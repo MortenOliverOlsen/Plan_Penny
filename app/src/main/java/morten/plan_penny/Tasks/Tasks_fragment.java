@@ -87,7 +87,7 @@ public class Tasks_fragment extends Fragment implements View.OnClickListener{
         Task newObj = new Task(mCellHeight);
         newObj.setStartTitle(title);
 
-        Data.taskToCloud(newObj);
+        data.taskToCloud(newObj);
 
 
         listView.addRow(newObj);
@@ -105,10 +105,10 @@ public class Tasks_fragment extends Fragment implements View.OnClickListener{
             addButton.setEnabled(false);
             listView.setEnabled(false);
 
-            String defaultTitle = "New task " + taskCounter;
             if (v == addButton){
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Name for new project");
+                builder.setTitle("New task");
+                builder.setCancelable(false);
 
                 final EditText input = new EditText(getActivity());
                 input.setOnClickListener(new View.OnClickListener() {
@@ -117,9 +117,7 @@ public class Tasks_fragment extends Fragment implements View.OnClickListener{
                         input.setText("");
                     }
                 });
-                input.setText("New task " + taskCounter);
-                input.setSelectAllOnFocus(true);
-
+                input.setHint("Name");
 
                 input.setInputType(InputType.TYPE_CLASS_TEXT);
                 builder.setView(input);

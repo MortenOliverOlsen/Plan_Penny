@@ -18,6 +18,7 @@ import android.widget.TextView;
 import java.util.GregorianCalendar;
 
 import morten.plan_penny.Main.Data;
+import morten.plan_penny.Main.Settings;
 import morten.plan_penny.R;
 import morten.plan_penny.Tasks.Task;
 
@@ -29,6 +30,7 @@ public class Calendar_fragment extends Fragment implements View.OnClickListener 
     private View calendarFrag;
     private TextView header;
     private Button addToCal_btn;
+    private Button optionsButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,6 +43,9 @@ public class Calendar_fragment extends Fragment implements View.OnClickListener 
         addToCal_btn = (Button) calendarFrag.findViewById(R.id.addToCalButton);
         addToCal_btn.setOnClickListener(this);
 
+        optionsButton = (Button) calendarFrag.findViewById(R.id.options_btn);
+        optionsButton.setOnClickListener(this);
+
         return calendarFrag;
     }
 
@@ -49,6 +54,7 @@ public class Calendar_fragment extends Fragment implements View.OnClickListener 
 
         if (v == addToCal_btn){
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setCancelable(false);
             builder.setTitle("Calendar event");
             builder.setMessage("This will create a calendar event using the data of the first task in your task list");
 
@@ -69,12 +75,13 @@ public class Calendar_fragment extends Fragment implements View.OnClickListener 
                     String startTimeString = task.getStartTime();
                     Long startTime = stringToMillis(startTimeString);
 
-                    calIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,startDate.getTimeInMillis()+startTime);
+                    calIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startDate.getTimeInMillis() + startTime);
+
 
                    // End time and date
-                    String endDateString = task.getStartDate();
+                    String endDateString = task.getEndDate();
                     GregorianCalendar endDate = stringToDate(endDateString);
-                    String endTimeString = task.getStartTime();
+                    String endTimeString = task.getEndTime();
                     Long endTime = stringToMillis(endTimeString);
 
                     calIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,endDate.getTimeInMillis()+endTime);
@@ -95,6 +102,11 @@ public class Calendar_fragment extends Fragment implements View.OnClickListener 
 
 
         }
+
+        if(v == optionsButton ){
+            Intent intent = new Intent(getActivity(), Settings.class);
+            startActivity(intent);
+        }
     }
 
     private GregorianCalendar stringToDate(String dateString) {
@@ -103,7 +115,7 @@ public class Calendar_fragment extends Fragment implements View.OnClickListener 
         String day = parts[0];
         String month = parts[1];
         String year = parts[2];
-        GregorianCalendar calDate = new GregorianCalendar(Integer.parseInt(year), Integer.parseInt(day), Integer.parseInt(month));
+        GregorianCalendar calDate = new GregorianCalendar(Integer.parseInt(year), Integer.parseInt(month)-1, Integer.parseInt(day));
 
         return calDate;
     }

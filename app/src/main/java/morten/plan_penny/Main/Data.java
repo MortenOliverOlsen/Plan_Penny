@@ -1,11 +1,10 @@
 package morten.plan_penny.Main;
 
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -28,16 +27,15 @@ public class Data {
     static ArrayList<Project> projectList;
     static ArrayList<Category> categoryList;
 
-
-
-    Context context;
+    Boolean isOfflineMode;
+    Boolean taskListIsLoaded = false;
+    Boolean projectListIsLoaded = false;
+    Boolean categoryListIsLoaded = false;
 
     public Data() {
         taskList = new ArrayList<>();
         projectList = new ArrayList<>();
         categoryList = new ArrayList<>();
-
-
     }
 
     public static Data getInstance() {
@@ -47,25 +45,37 @@ public class Data {
         return instance;
     }
 
-
-
-    public void setContext(Context context) {
-        this.context = context;
+    public void setMode(Boolean isOfflineMode) {
+        this.isOfflineMode = isOfflineMode;
     }
 
-    public Boolean isInOfflineStorageMode(){
-        Boolean pref_offlineSync = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("offline", true);
-        if (pref_offlineSync == true) {
-            return true;
-        } else return false;
+    public void loadArrayLists(Context context) {
+
+        final ProgressDialog ringProgressDialog = ProgressDialog.show(context, "Please wait ...", "Downloading Lists ...", true);
+        ringProgressDialog.setCancelable(false);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+
+                    categoryList = getAllCategorires();
+                    projectList = getAllProject();
+                    taskList = getAllTasks();
+
+                } catch (Exception e) {
+                }
+                ringProgressDialog.dismiss();
+            }
+        }).start();
 
     }
 
-    public void loadArrayLists() {
-        categoryList = getAllCategorires();
-        projectList = getAllProject();
-        taskList = getAllTasks();
-    }
+
+
+
+
+
+
 
     public ArrayList<Task> getTaskList() {
         return taskList;
@@ -79,7 +89,7 @@ public class Data {
         return categoryList;
     }
 
-    public static void taskToCloud(Task task) {
+    public void taskToCloud(Task task) {
 
         ParseObject taskQ = new ParseObject("Task");
         taskQ.put("title", task.getTitle());
@@ -107,9 +117,11 @@ public class Data {
         taskQ.put("options", task.getOptions());
 
 
-        if (Data.getInstance().isInOfflineStorageMode()){
+        if (isOfflineMode){
             taskQ.saveEventually();
-        } else taskQ.saveInBackground();
+        } else {
+            taskQ.saveInBackground();
+        }
 
     }
 
@@ -156,7 +168,6 @@ public class Data {
             task.options = cloudOptions;
         }
 
-
         return task;
     }
 
@@ -167,33 +178,42 @@ public class Data {
         final ArrayList<Task> tempTaskList = new ArrayList<>();
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Task");
+
+        if (isOfflineMode){
+            query.fromLocalDatastore();
+        }
+
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> taskListQ, com.parse.ParseException e) {
                 if (e == null) {
+                    taskListIsLoaded = false;
                     Log.d("task", "Retrieved " + taskListQ.size() + " tasks");
-                    for ( ParseObject cloudTask : taskListQ) {
+                    for (ParseObject cloudTask : taskListQ) {
                         Task t = cloudToTask(cloudTask);
                         tempTaskList.add(t);
                     }
-
+                    taskListIsLoaded = true;
                 } else {
                     Log.d("task", "Error: " + e.getMessage());
                 }
             }
         });
 
+        while(!taskListIsLoaded);
         return tempTaskList;
     }
 
-    public static void categoryToCloud(Category category) {
+    public void categoryToCloud(Category category) {
         ParseObject categoryQ = new ParseObject("Category");
         categoryQ.put("title", category.getTitle());
         categoryQ.put("color", category.getColor());
 
-        if (Data.getInstance().isInOfflineStorageMode()){
+        if (isOfflineMode){
             categoryQ.saveEventually();
-        } else categoryQ.saveInBackground();
+        } else {
+            categoryQ.saveInBackground();
+        }
 
     }
 
@@ -206,34 +226,45 @@ public class Data {
         final ArrayList<Category> tempCategoryList = new ArrayList<>();
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Category");
+
+        if (isOfflineMode){
+            query.fromLocalDatastore();
+        }
+
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> categoryListQ, com.parse.ParseException e) {
                 if (e == null) {
                     Log.d("category", "Retrieved " + categoryListQ.size() + " categories");
+
+                    categoryListIsLoaded = false;
                     for ( ParseObject cloudCategory : categoryListQ) {
                         Category cat = cloudToCategory(cloudCategory);
                         tempCategoryList.add(cat);
                     }
 
+                    categoryListIsLoaded = true;
                 } else {
                     Log.d("category", "Error: " + e.getMessage());
                 }
             }
         });
 
+        while(!categoryListIsLoaded);
         return tempCategoryList;
     }
 
 
 
-    public static void projectToCloud(Project project) {
+    public void projectToCloud(Project project) {
         ParseObject projectQ = new ParseObject("Project");
         projectQ.put("title", project.getTitle());
 
-        if (Data.getInstance().isInOfflineStorageMode()){
+        if (isOfflineMode){
             projectQ.saveEventually();
-        } else projectQ.saveInBackground();
+        } else {
+            projectQ.saveInBackground();
+        }
 
     }
     public Project cloudToProject(ParseObject cloudProject) {
@@ -246,15 +277,22 @@ public class Data {
         final ArrayList<Project> tempProjectList = new ArrayList<>();
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Project");
+
+        if (isOfflineMode == true){
+            query.fromLocalDatastore();
+        }
+
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> projectListQ, com.parse.ParseException e) {
                 if (e == null) {
                     Log.d("project", "Retrieved " + projectListQ.size() + " categories");
+                    projectListIsLoaded = false;
                     for ( ParseObject cloudProject : projectListQ) {
                         Project project = cloudToProject(cloudProject);
                         tempProjectList.add(project);
                     }
+                    projectListIsLoaded = true;
 
                 } else {
                     Log.d("project", "Error: " + e.getMessage());
@@ -262,6 +300,7 @@ public class Data {
             }
         });
 
+        while(!projectListIsLoaded);
         return tempProjectList;
 
     }
@@ -272,6 +311,11 @@ public class Data {
     public void setTaskOptions(String title, final ArrayList<Boolean> settingsList) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Task");
         query.whereEqualTo("title", title);
+
+        if (isOfflineMode){
+            query.fromLocalDatastore();
+        }
+
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> cloudSettings, ParseException e) {
@@ -280,9 +324,11 @@ public class Data {
                     ParseObject cSettings = cloudSettings.get(0);
                     cSettings.put("options",settingsList);
 
-                    if (Data.getInstance().isInOfflineStorageMode()){
+                    if (isOfflineMode){
                         cSettings.saveEventually();
-                    } else cSettings.saveInBackground();
+                    } else {
+                        cSettings.saveInBackground();
+                    }
 
                 } else {
                     Log.d("settings", "Error: " + e.getMessage());
@@ -294,6 +340,11 @@ public class Data {
     public void setTaskProjects(String title, final ArrayList<Project> projectList) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Task");
         query.whereEqualTo("title", title);
+
+        if (isOfflineMode){
+            query.fromLocalDatastore();
+        }
+
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> cloudProjects, ParseException e) {
@@ -305,9 +356,11 @@ public class Data {
                         cProjects.add("projects", project.getTitle());
                     }
 
-                    if (Data.getInstance().isInOfflineStorageMode()){
+                    if (isOfflineMode){
                         cProjects.saveEventually();
-                    } else  cProjects.saveInBackground();
+                    } else {
+                        cProjects.saveInBackground();
+                    }
 
                 } else {
                     Log.d("projects", "Error: " + e.getMessage());
@@ -319,6 +372,11 @@ public class Data {
     public void setTaskCategories(String title, final ArrayList<Category> categoryList) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Task");
         query.whereEqualTo("title", title);
+
+        if (isOfflineMode){
+            query.fromLocalDatastore();
+        }
+
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> cloudCategories, ParseException e) {
@@ -330,9 +388,11 @@ public class Data {
                         cCategories.add("categories", category.getTitle());
                     }
 
-                    if (Data.getInstance().isInOfflineStorageMode()){
+                    if (isOfflineMode){
                         cCategories.saveEventually();
-                    } else  cCategories.saveInBackground();
+                    } else {
+                        cCategories.saveInBackground();
+                    }
 
                 } else {
                     Log.d("settings", "Error: " + e.getMessage());
@@ -344,6 +404,11 @@ public class Data {
 
     public void remove(String task, String title) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Task");
+
+        if (isOfflineMode){
+            query.fromLocalDatastore();
+        }
+
         query.whereEqualTo("title", title);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -352,9 +417,11 @@ public class Data {
                     Log.d("settings", "Retrieved " + cloudTasks.size() + " scores");
                     ParseObject cTask = cloudTasks.get(0);
 
-                    if (Data.getInstance().isInOfflineStorageMode()){
+                    if (isOfflineMode){
                         cTask.deleteEventually();
-                    } else  cTask.deleteInBackground();
+                    } else {
+                        cTask.deleteInBackground();
+                    }
 
                 } else {
                     Log.d("settings", "Error: " + e.getMessage());
@@ -367,6 +434,11 @@ public class Data {
     public void setInt(String list, String title, final String column , final int intValue) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(list);
         query.whereEqualTo("title", title);
+
+        if (isOfflineMode){
+            query.fromLocalDatastore();
+        }
+
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> cloudTasks, ParseException e) {
@@ -375,9 +447,11 @@ public class Data {
                     ParseObject cTask = cloudTasks.get(0);
                     cTask.put(column,intValue);
 
-                    if (Data.getInstance().isInOfflineStorageMode()){
+                    if (isOfflineMode){
                         cTask.saveEventually();
-                    } else  cTask.saveInBackground();
+                    } else {
+                        cTask.saveInBackground();
+                    }
 
                 } else {
                     Log.d("tasks", "Error: " + e.getMessage());
@@ -389,6 +463,11 @@ public class Data {
     public void setString(String list, String title, final String column , final String stringValue) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(list);
         query.whereEqualTo("title", title);
+
+        if (isOfflineMode){
+            query.fromLocalDatastore();
+        }
+
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> cloudTasks, ParseException e) {
@@ -400,9 +479,11 @@ public class Data {
                     ParseObject cTask = cloudTasks.get(0);
                     cTask.put(column, stringValue);
 
-                    if (Data.getInstance().isInOfflineStorageMode()){
+                    if (isOfflineMode){
                         cTask.saveEventually();
-                    } else  cTask.saveInBackground();
+                    } else {
+                        cTask.saveInBackground();
+                    }
 
                 } else {
                     Log.d("tasks", "Error: " + e.getMessage());
@@ -414,6 +495,11 @@ public class Data {
     public void setBoolean(String title, final String column, final boolean boolValue) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Task");
         query.whereEqualTo("title", title);
+
+        if (isOfflineMode){
+            query.fromLocalDatastore();
+        }
+
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> cloudTasks, ParseException e) {
@@ -422,9 +508,11 @@ public class Data {
                     ParseObject cTask = cloudTasks.get(0);
                     cTask.put(column, boolValue);
 
-                    if (Data.getInstance().isInOfflineStorageMode()){
+                    if (isOfflineMode){
                         cTask.saveEventually();
-                    } else    cTask.saveInBackground();
+                    } else  {
+                        cTask.saveInBackground();
+                    }
 
 
                 } else {

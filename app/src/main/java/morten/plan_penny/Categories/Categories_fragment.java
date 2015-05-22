@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import morten.plan_penny.Main.Data;
+import morten.plan_penny.Main.Settings;
 import morten.plan_penny.R;
 import yuku.ambilwarna.AmbilWarnaDialog;
 
@@ -26,12 +28,14 @@ import yuku.ambilwarna.AmbilWarnaDialog;
 /**
  * Created by morten on 3/17/15.
  */
+
 public class Categories_fragment extends Fragment implements View.OnClickListener {
+
     private View categoryFrag;
     private TextView header;
 
     private Button addButton;
-
+    private Button optionsButton;
 
     private CategoryListView listView;
 
@@ -65,11 +69,12 @@ public class Categories_fragment extends Fragment implements View.OnClickListene
             listView.setAdapter(listAdapter);
             listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
-
             addButton = (Button) categoryFrag.findViewById(R.id.addButton);
             addButton.setOnClickListener(this);
             addButton.setTypeface(latoReg);
 
+            optionsButton = (Button) categoryFrag.findViewById(R.id.options_btn);
+            optionsButton.setOnClickListener(this);
 
             return categoryFrag;
         }
@@ -77,15 +82,10 @@ public class Categories_fragment extends Fragment implements View.OnClickListene
 
     public void addRow(String title, int color) {
 
-        taskCounter++;
-        String description = "This is string " + taskCounter + " and it has not yet received a description";
-
         final Category newObj = new Category(color,mCellHeight);
         newObj.setStartTitle(title);
-        Data.categoryToCloud(newObj);
-
+        data.categoryToCloud(newObj);
         listView.addRow(newObj);
-
         listView.setEnabled(true);
         addButton.setEnabled(true);
 
@@ -98,10 +98,10 @@ public class Categories_fragment extends Fragment implements View.OnClickListene
             addButton.setEnabled(false);
             listView.setEnabled(false);
 
-            String defaultTitle = "New task " + taskCounter;
             if (v == addButton) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Name for new project");
+                builder.setTitle("New category");
+                builder.setCancelable(false);
 
                 final EditText input = new EditText(getActivity());
                 input.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +110,7 @@ public class Categories_fragment extends Fragment implements View.OnClickListene
                         input.setText("");
                     }
                 });
-                input.setText("New task " + taskCounter);
+                input.setHint("Name of Category");
                 input.setSelectAllOnFocus(true);
 
 
@@ -123,7 +123,7 @@ public class Categories_fragment extends Fragment implements View.OnClickListene
                         final String title = input.getText().toString();
                         // FARVE
                         int color = Color.parseColor("#4c4cff");
-                        AmbilWarnaDialog colorDialog = new AmbilWarnaDialog(getActivity(),color, new AmbilWarnaDialog.OnAmbilWarnaListener() {
+                        final AmbilWarnaDialog colorDialog = new AmbilWarnaDialog(getActivity(),color, new AmbilWarnaDialog.OnAmbilWarnaListener() {
                             @Override
                             public void onOk(AmbilWarnaDialog dialog, int color) {
                                 addRow(title,color);
@@ -131,16 +131,10 @@ public class Categories_fragment extends Fragment implements View.OnClickListene
 
                             @Override
                             public void onCancel(AmbilWarnaDialog dialog) {
-                                // cancel was selected by the user
+
                             }
-
-
                           });
                         colorDialog.show();
-
-
-
-
 
                     }
                 });
@@ -155,6 +149,11 @@ public class Categories_fragment extends Fragment implements View.OnClickListene
 
             }
 
+        }
+
+        if(v == optionsButton ){
+            Intent intent = new Intent(getActivity(), Settings.class);
+            startActivity(intent);
         }
     }
 }

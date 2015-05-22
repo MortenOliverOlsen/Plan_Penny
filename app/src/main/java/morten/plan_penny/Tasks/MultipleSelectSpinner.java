@@ -37,31 +37,11 @@ public class MultipleSelectSpinner {
     CharSequence[] settingsTitleList = { "Start Date", "End Date", "Time to complete", "Alert", "Description"};
     private ArrayList<Boolean> settingsList = new ArrayList<>();
 
-
-    // Test data
-    Category c1; // Blå
-    Category c2; // Gul
-    Category c3; // Rød
-    Category c4; // Grøn
     private View convertView;
 
 
     public MultipleSelectSpinner(Context context) {
         this.context = context;
-
-     /*   // Initialize test data
-        int color = Color.parseColor("#4c4cff");
-        c1 = new Category("Morgen",color);
-        categoryList.add(c1);
-        int color2 = Color.parseColor("#FFA500");
-        c2 = new Category("Formiddag",color2);
-        categoryList.add(c2);
-        int color3 = Color.parseColor("#CC0000");
-        c3 = new Category("Eftermiddag",color3);
-        categoryList.add(c3);
-        int color4 = Color.parseColor("#3DA428");
-        c4 = new Category("Aften",color4);
-        categoryList.add(c4);*/
     }
 
     private void showAlertDialog(){
@@ -106,7 +86,10 @@ public class MultipleSelectSpinner {
                             switch (type){
                                 case 1:
                                     if (selections[i]== true){
-                                    task.addProject(projectList.get(i));
+                                        if (!projectList.get(i).getTasks().contains(task)) {
+                                            task.addProject(projectList.get(i));
+                                            projectList.get(i).addTask(task);
+                                        }
                                     } else {
                                     task.removeProject(projectList.get(i));
                                     }

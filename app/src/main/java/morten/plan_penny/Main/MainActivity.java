@@ -30,13 +30,14 @@ implements Menu_fragment.OnButtonSelectedListener {
     Calendar_fragment calendar_fragment;
     Clipboard_fragment clipboard_fragment;
     Categories_fragment categories_fragment;
+    Data data = Data.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
-
+            data.loadArrayLists(this);
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             menu_fragment = new Menu_fragment();

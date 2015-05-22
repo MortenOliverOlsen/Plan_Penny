@@ -28,6 +28,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Vibrator;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
@@ -42,7 +43,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import morten.plan_penny.Main.Data;
 import morten.plan_penny.R;
 
 /**
@@ -96,6 +96,8 @@ public class DynamicListView extends ExpandableListView {
     private boolean mIsWaitingForScrollFinish = false;
     private int mScrollState = OnScrollListener.SCROLL_STATE_IDLE;
 
+    Vibrator vibrator;
+
     // Expanding list attributes
 
     private boolean mShouldRemoveObserver = false;
@@ -108,6 +110,7 @@ public class DynamicListView extends ExpandableListView {
     public DynamicListView(Context context) {
         super(context);
         init(context);
+
     }
 
     public DynamicListView(Context context, AttributeSet attrs, int defStyle) {
@@ -126,6 +129,7 @@ public class DynamicListView extends ExpandableListView {
         setOnScrollListener(mScrollListener);
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         mSmoothScrollAmountAtEdge = (int)(SMOOTH_SCROLL_AMOUNT_AT_EDGE / metrics.density);
+        vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
     }
 
     /**
@@ -136,6 +140,9 @@ public class DynamicListView extends ExpandableListView {
             new OnItemLongClickListener() {
                 public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
                     mTotalOffset = 0;
+
+
+                    vibrator.vibrate(75);
 
                     int position = pointToPosition(mDownX, mDownY);
                     int itemNum = position - getFirstVisiblePosition();

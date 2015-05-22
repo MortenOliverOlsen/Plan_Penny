@@ -2,7 +2,7 @@
 <morten.plan_penny.Main.FragmentLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:background="#eb5c3e"
@@ -21,26 +21,41 @@
             android:includeFontPadding="false"
             android:layout_alignParentTop="true"
             android:textColor="@android:color/white"
-            android:layout_marginLeft="3dp"
-            android:layout_marginTop="-3dp" />
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="-5dp"
+            android:layout_alignParentLeft="true" />
 
         <Button
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:id="@+id/ganttButton"
-            android:background="@drawable/gantt_btn"
             android:layout_margin="5dp"
-            android:layout_gravity="left|bottom" />
-
-        <Button
-            android:layout_width="30dp"
-            android:layout_height="30dp"
             android:id="@+id/addButton"
             android:background="@drawable/add_task_button"
-            android:layout_margin="5dp"
-            android:layout_gravity="right|bottom" />
+            android:layout_alignTop="@+id/ganttButton"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
-    </FrameLayout>
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="2dp"
+            android:id="@+id/options_btn"
+            android:background="@drawable/task_settings"
+            android:layout_alignTop="@+id/ganttButton"
+            android:layout_alignLeft="@+id/textView_header"
+            android:layout_alignStart="@+id/textView_header" />
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="7dp"
+            android:id="@+id/ganttButton"
+            android:background="@drawable/gantt_btn"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/options_btn" />
+
+    </RelativeLayout>
 
     <FrameLayout
         android:id="@+id/content_frag2"

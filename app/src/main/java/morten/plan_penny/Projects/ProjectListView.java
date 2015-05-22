@@ -28,6 +28,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Vibrator;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
@@ -95,6 +96,8 @@ public class ProjectListView extends ExpandableListView {
     private boolean mIsWaitingForScrollFinish = false;
     private int mScrollState = OnScrollListener.SCROLL_STATE_IDLE;
 
+    Vibrator vibrator;
+
     // Expanding list attributes
 
     private boolean mShouldRemoveObserver = false;
@@ -125,6 +128,7 @@ public class ProjectListView extends ExpandableListView {
         setOnScrollListener(mScrollListener);
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         mSmoothScrollAmountAtEdge = (int)(SMOOTH_SCROLL_AMOUNT_AT_EDGE / metrics.density);
+        vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
     }
 
     /**
@@ -135,6 +139,8 @@ public class ProjectListView extends ExpandableListView {
             new OnItemLongClickListener() {
                 public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
                     mTotalOffset = 0;
+
+                    vibrator.vibrate(75);
 
                     int position = pointToPosition(mDownX, mDownY);
                     int itemNum = position - getFirstVisiblePosition();
@@ -634,12 +640,9 @@ public class ProjectListView extends ExpandableListView {
         View selectedView = adapter.getGroupView(0,false,null,null);
 
         CheckedTextView tw = (CheckedTextView) selectedView.findViewById(R.id.title_view);
-        System.out.println("tw = " + tw.getText());
 
-        tw.setText("Hej Morten");
         tw.setSelectAllOnFocus(true);
         tw.hasFocus();
-
 
         smoothScrollToPosition(0);
 

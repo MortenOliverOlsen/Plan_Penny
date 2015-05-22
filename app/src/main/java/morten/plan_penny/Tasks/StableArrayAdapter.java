@@ -617,9 +617,7 @@ public class StableArrayAdapter extends BaseExpandableListAdapter{
     }
 
     public void updateCloudPosFromIndex(int index){
-     /*   for (int i = index;i <listItems.size() ; i++) {
-            data.setInt("Task", listItems.get(i).getTitle(), "index", i);
-        }*/
+         // Position memory feature
     }
 
 }

@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:name=".Main.MyApplicationClass"
@@ -28,6 +29,10 @@
         <activity
             android:name=".Main.Settings"
             android:label="@string/title_activity_settings" >
+        </activity>
+        <activity
+            android:name=".Projects.GanntActivity"
+            android:label="@string/title_activity_gannt" >
         </activity>
     </application>
 

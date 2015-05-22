@@ -257,9 +257,7 @@ public class CategoryArrayAdapter extends BaseExpandableListAdapter{
     }
 
     public void updateCloudPosFromIndex(){
-      /*  for (int i = 0; i <listItems.size() ; i++) {
-            data.setInt("Category", listItems.get(i).getTitle(), "index", i);
-        }*/
+
     }
 
 }

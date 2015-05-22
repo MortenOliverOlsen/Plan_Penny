@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.InputType;
@@ -14,11 +15,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import morten.plan_penny.Main.Data;
+import morten.plan_penny.Main.Settings;
 import morten.plan_penny.R;
 
 /**
@@ -29,10 +32,9 @@ public class Project_fragment extends Fragment implements View.OnClickListener {
     private View projectFrag;
     private TextView header;
 
-    public boolean portrait = true;
-
     private Button addButton;
     private Button ganttBtn;
+    private Button optionsButton;
 
     private ProjectListView listView;
 
@@ -55,7 +57,7 @@ public class Project_fragment extends Fragment implements View.OnClickListener {
             header = (TextView) projectFrag.findViewById(R.id.textView_header);
             Typeface latoReg = Typeface.createFromAsset(getActivity().getAssets(), "lato_regular.ttf");
             header.setTypeface(latoReg);
-            FrameLayout fl = (FrameLayout) projectFrag.findViewById(R.id.header_slot);
+            RelativeLayout fl = (RelativeLayout) projectFrag.findViewById(R.id.header_slot);
             System.out.println("" + fl.getWidth());
 
 
@@ -76,6 +78,8 @@ public class Project_fragment extends Fragment implements View.OnClickListener {
             ganttBtn = (Button) projectFrag.findViewById(R.id.ganttButton);
             ganttBtn.setOnClickListener(this);
 
+            optionsButton = (Button) projectFrag.findViewById(R.id.options_btn);
+            optionsButton.setOnClickListener(this);
 
             return projectFrag;
         }
@@ -83,12 +87,9 @@ public class Project_fragment extends Fragment implements View.OnClickListener {
 
     public void addRow(String title) {
 
-        taskCounter++;
-        String description = "This is string " + taskCounter + " and it has not yet received a description";
-
         final Project newObj = new Project(mCellHeight);
         newObj.setTitle(title);
-        Data.projectToCloud(newObj);
+        data.projectToCloud(newObj);
         listView.addRow(newObj);
 
         listView.setEnabled(true);
@@ -103,11 +104,10 @@ public class Project_fragment extends Fragment implements View.OnClickListener {
             addButton.setEnabled(false);
             listView.setEnabled(false);
 
-            String defaultTitle = "New project " + taskCounter;
-
             if (v == addButton) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle("Title");
+                builder.setCancelable(false);
 
                 final EditText input = new EditText(getActivity());
                 input.setOnClickListener(new View.OnClickListener() {
@@ -116,9 +116,7 @@ public class Project_fragment extends Fragment implements View.OnClickListener {
                         input.setText("");
                     }
                 });
-                input.setText(defaultTitle);
-                input.setSelectAllOnFocus(true);
-
+                input.setHint("Name of Project");
 
                 input.setInputType(InputType.TYPE_CLASS_TEXT);
                 builder.setView(input);
@@ -142,7 +140,12 @@ public class Project_fragment extends Fragment implements View.OnClickListener {
 
         }
         if (v == ganttBtn){
-            // indsæt gantt billede
+            Intent intent = new Intent(getActivity(), GanntActivity.class);
+            startActivity(intent);
+        }
+        if(v == optionsButton ){
+            Intent intent = new Intent(getActivity(), Settings.class);
+            startActivity(intent);
         }
     }
 }
